@@ -2,18 +2,25 @@
   "name": "mrills_ranobe",
   "main": "src/app.js",
   "license": "UNLICENSED",
-  "type": "module",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon"
+    "build": "babel src -d dist",
+    "start": "yarn build && nodemon dist/app.js"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.5",
-    "express": "^4.17.1",
-    "node-fetch": "^2.6.1"
+    "dotenv": "^8.2.0",
+    "koa": "^2.13.1",
+    "koa-body": "^4.2.0",
+    "koa-router": "^10.0.0",
+    "node-fetch": "^2.6.1",
+    "pg": "^8.5.1",
+    "pg-promise": "^10.10.1",
+    "validator": "^13.5.2"
   },
   "devDependencies": {
+    "@babel/cli": "^7.13.14",
     "@babel/core": "^7.13.14",
+    "@babel/preset-env": "^7.13.15",
     "@babel/runtime": "^7.13.10",
     "nodemon": "^2.0.7"
   }
