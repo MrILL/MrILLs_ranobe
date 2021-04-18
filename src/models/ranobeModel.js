@@ -1,25 +1,22 @@
 import db from '../db';
 
-const create = async ({ title, url }) => {
-  return await db.query(
-    'INSERT INTO ranobes (title, source) VALUES ($1, $2) RETURNING *',
-    [title, url]
-  );
+const create = async ({ ranobesInfoId, domain, url }) => {
+  const insertQuery =
+    'INSERT INTO ranobes (ranobesInfoId, domain, source) \
+  VALUES ($1, $2, $3) RETURNING *';
+  const values = [ranobesInfoId, domain, url];
+  const { rows } = await db.query(insertQuery, values);
+  return rows[0];
 };
 
-const getOneByUrl = async (url) => {
-  return await db.query(`SELECT * FROM ranobes WHERE source=$1`, [url]);
+const getOneByDomain = async ({ ranobesInfoId, domain }) => {
+  const selectQuery =
+    'SELECT * FROM ranobes WHERE ranobesInfoId=$1 AND domain=$2';
+  const values = [ranobesInfoId, domain];
+  console.log(values);
+  const { rows } = await db.query(selectQuery, values);
+  console.log(rows);
+  return rows[0];
 };
 
-const updateChapters = async ({ ranobeID, chapterFirstID, chapterLastID }) => {
-  return await db.query(
-    'UPDATE ranobes SET chapter_first=$1, chapter_last=$2 WHERE id=$3 RETURNING *',
-    [chapterFirstID, chapterLastID, ranobeID]
-  );
-};
-
-export default {
-  create,
-  getOneByUrl,
-  updateChapters,
-};
+export default { create, getOneByDomain };

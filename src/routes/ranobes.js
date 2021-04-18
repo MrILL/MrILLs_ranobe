@@ -1,12 +1,15 @@
 import Router from 'koa-router';
-import { list, addRanobe } from '../controllers/ranobesController.js';
+import {
+  list,
+  addRanobeInfo,
+  addRanobe,
+} from '../controllers/ranobesController.js';
 
-const rRouter = new Router({
-  prefix: '/r',
-});
+const rRouter = new Router();
 
-rRouter.get('/', list);
-rRouter.post('/', addRanobe);
+rRouter.get('/r', list);
+rRouter.post('/r', addRanobeInfo);
+rRouter.post('/:ranobe', addRanobe);
 //get '/:ranobe'
 //get '/:ranobe/:chapter'
 //request to extract chapter of ranobe

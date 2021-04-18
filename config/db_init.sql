@@ -1,41 +1,40 @@
+DROP TABLE IF EXISTS ranobesInfo CASCADE;
 DROP TABLE IF EXISTS ranobes CASCADE;
+DROP TABLE IF EXISTS chaptersInfo CASCADE;
 DROP TABLE IF EXISTS chapters CASCADE;
+
+CREATE TABLE IF NOT EXISTS ranobesInfo (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(100) NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS ranobes (
     id SERIAL PRIMARY KEY,
-    title VARCHAR(100) NOT NULL,
-    chapter_first INT REFERENCES ranobes,
-    chapter_last INT REFERENCES ranobes,
+    ranobesInfoId INT REFERENCES ranobesInfo NOT NULL,
+    domain VARCHAR(100) NOT NULL,
     source VARCHAR(512) NOT NULL
 );
---   //Additional:
+--   Additional:
 --   //genre
---   //finished
+--   //finished --//get status from source
 --   //total chapters
 --   //date of last update?
+
+-- Ignore That Right now, seems useless
+-- CREATE TABLE IF NOT EXISTS chaptersInfo (
+--     id SERIAL PRIMARY KEY,
+--     ranobeId INT REFERENCES ranobesInfo,
+--     title VARCHAR(250) NOT NULL,
+--     nomer INT NOT NULL
+-- );
 
 CREATE TABLE IF NOT EXISTS chapters (
     id SERIAL PRIMARY KEY,
     ranobeId INT REFERENCES ranobes,
-    title VARCHAR(250) NOT NULL,
-    body TEXT NOT NULL
+    -- chapterInfoId INT REFERENCES chaptersInfo,
+    nomer INT NOT NULL,
+    domain VARCHAR(100) NOT NULL,
+    source VARCHAR(512) NOT NULL,
+    title VARCHAR(250),
+    body TEXT
 );
--- to add ranobe need only to pass an url
---   //Additional:
---   //finished? //if finished, than don't need to rescrap site
---   //scrap_src //url of origin
-
---   //suppose for this will be different server (maybe sheduler)
---   //DB: chapters_check_for_update? //here will be chapter, that will be
---   // //checking for update to get things?
---   //id
---   //src
---   //last_checked
-
---   //also for a ranobe in db will be table with next fields
---   //(this table for extracting chapters of some ranobe)
---   //(also, even if url have in this table, it must be checked for
---   // rules to parse this thing)
---   //DB: extract_src
---   //ranobeName
---   //url with this ranobe (every url must have different hostName)

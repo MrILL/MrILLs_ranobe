@@ -6,6 +6,7 @@ import { extractChapterRanobes, extractInfoRanobes } from './ranobes.com.js';
 //   'https://ranobes.com/chapters/solo-leveling-org/23557-tom-1-glava-1-ohotnik-ranga-e.html',
 //   'https://ranobes.com/ranobe/20314-solo-leveling.html',
 //   'https://ranobehub.org/ranobe/351-eighth-son-i-dont-think-so',
+//   'https://ranobes.com/ranobe/68-against-the-gods.html',
 // ];
 
 // const src = testSrc[0];
