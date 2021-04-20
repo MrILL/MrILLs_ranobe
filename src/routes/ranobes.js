@@ -1,18 +1,24 @@
 import Router from 'koa-router';
 import {
-  list,
+  // list,
   addRanobeInfo,
   addRanobe,
-} from '../controllers/ranobesController.js';
+} from '../controllers';
 
 const rRouter = new Router();
 
-rRouter.get('/r', list);
-rRouter.post('/r', addRanobeInfo);
-rRouter.post('/:ranobe', addRanobe);
+rRouter.get('/ranobes', list); //listRanobes[] from ranobes JOIN ranobesInfo (key = id)
+
+rRouter.post('/ranobes', addRanobeInfo); //
+
+// rRouter.post('/:ranobe', addRanobe);
+rRouter.put('/ranobes/:ranobe', addRanobeDomain); //PATCH or PUT
+
 //get '/:ranobe'
 //get '/:ranobe/:chapter'
-//request to extract chapter of ranobe
-//request to extract ranobe (it's a POST and in body will be url)
+
+rRouter.get('/ranobes/:ranobe', getRanobe);
+rRouter.get('/ranobes/:ranobe/:chapter', getChapter);
+rRouter.put('/ranobes/:ranobe', addRanobeDomain); //PATCH or PUT
 
 export default rRouter;

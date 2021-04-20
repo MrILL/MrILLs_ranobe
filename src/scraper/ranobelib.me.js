@@ -1,11 +1,11 @@
 //NOT WORK!
 //here i suppose wwe need to use papeter
 import cheerio from 'cheerio';
-import {cheerioCleanEachClass} from './utils.js';
+import { cheerioCleanEachClass } from './utils.js';
 
 //TODO add downloading img
 
-const extractPageRanobeLib = (data) => {
+const extractChapterRanobeLib = (data) => {
   // return data;
   const $ = cheerio.load(data);
   const selector = $('body');
@@ -14,4 +14,4 @@ const extractPageRanobeLib = (data) => {
   return content;
 };
 
-export default extractPageRanobeLib;
+export default extractChapterRanobeLib;
