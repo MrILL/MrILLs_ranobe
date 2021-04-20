@@ -2,10 +2,14 @@ import dotenv from 'dotenv';
 import Koa from 'koa';
 import koaBody from 'koa-body';
 
-import Router from './routes';
-import { db, init } from './db';
-
-import { ChaptersRepo, RanobeDomainsRepo, RanobesRepo } from './repositories';
+import Router from './src/routes';
+import { pool } from './src/db';
+const { db, init } = pool;
+import {
+  ChaptersRepo,
+  RanobeDomainsRepo,
+  RanobesRepo,
+} from './src/repositories';
 
 dotenv.config();
 init(process.cwd() + '\\db_scripts\\init.sql');
