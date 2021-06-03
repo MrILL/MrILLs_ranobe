@@ -34,7 +34,7 @@ class RanobesRepo {
   async delete({ ranobeId }) {
     const deleteQuery = 'DELETE FROM ranobes WHERE id=$1';
     const values = [ranobeId];
-    const res = await this.db.query(deleteQuery, values);
+    await this.db.query(deleteQuery, values);
   }
 }
 

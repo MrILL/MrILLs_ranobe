@@ -44,7 +44,7 @@ class RanobesController {
     const res = await this.ranobesRepo.update({ ranobeId: ranobe, title });
 
     ctx.response.body = res;
-    ctx.status = 201;
+    ctx.status = 200;
   };
 
   delete = async (ctx) => {
@@ -58,7 +58,7 @@ class RanobesController {
       return;
     }
 
-    const res = await this.ranobesRepo.delete({ ranobeId: ranobe });
+    await this.ranobesRepo.delete({ ranobeId: ranobe });
     ctx.response.body = checkRanobe;
     ctx.status = 200;
   };
