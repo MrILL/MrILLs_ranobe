@@ -46,6 +46,22 @@ class RanobesController {
     ctx.response.body = res;
     ctx.status = 201;
   };
+
+  delete = async (ctx) => {
+    const {
+      params: { ranobe },
+    } = ctx;
+
+    const checkRanobe = await this.ranobesRepo.getOneById({ id: ranobe });
+    if (!checkRanobe) {
+      ctx.throw(404, 'Ranobe Not Found');
+      return;
+    }
+
+    const res = await this.ranobesRepo.delete({ ranobeId: ranobe });
+    ctx.response.body = checkRanobe;
+    ctx.status = 200;
+  };
 }
 
 export default RanobesController;

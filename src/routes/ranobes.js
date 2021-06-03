@@ -11,7 +11,7 @@ class RanobesRouter extends CustomBasicRouter {
     this.router.post('/', this.controller.ranobes.add);
 
     this.router.put('/:ranobe', this.controller.ranobes.update);
-    // this.router.delete('/:ranobe', this.controller.deleteRanobe);
+    this.router.delete('/:ranobe', this.controller.ranobes.delete);
   }
 }
 
