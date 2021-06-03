@@ -2,7 +2,7 @@ import Router from 'koa-router';
 import Controllers from '../controllers';
 import CustomBasicRouter from './CustomBasicRouter';
 
-class DomainsRouter extends CustomBasicRouter {
+class RanobeDomainsRouter extends CustomBasicRouter {
   constructor(repos) {
     this.controller = new Controllers(repos);
     this.router = new Router();
@@ -16,4 +16,4 @@ class DomainsRouter extends CustomBasicRouter {
   }
 }
 
-export default DomainsRouter;
+export default RanobeDomainsRouter;
