@@ -9,10 +9,10 @@ class Controllers {
   }
 
   //TODO add pagination
-  listRanobesInfo = async (ctx) => {
+  getRanobes = async (ctx) => {
     const res = await this.ranobesRepo.get();
     if (!res) {
-      ctx.throw(404, 'RanobesInfo Not Found');
+      ctx.throw(404, 'Ranobe Not Found');
       return;
     }
 
@@ -58,7 +58,7 @@ class Controllers {
 
     const domain = new URL(url).hostname;
     const checkDomain = await this.ranobeDomainsRepo.getOneByDomain({
-      ranobesInfoId: ranobe,
+      ranobeId: ranobe,
       domain,
     });
     if (checkDomain) {
@@ -67,7 +67,7 @@ class Controllers {
     }
 
     const res = await this.ranobeDomainsRepo.create({
-      ranobesInfoId: ranobe,
+      ranobeId: ranobe,
       domain,
       url,
     });
