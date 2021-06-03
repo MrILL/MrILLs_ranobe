@@ -1,3 +1,5 @@
+import validator from 'validator';
+
 class RanobeDomainsController {
   constructor({ chaptersRepo, ranobeDomainsRepo, ranobesRepo }) {
     this.chaptersRepo = chaptersRepo;
@@ -5,11 +7,7 @@ class RanobeDomainsController {
     this.ranobesRepo = ranobesRepo;
   }
 
-  getRanobeDomain = async (ctx) => {
-    //TODO
-  };
-
-  addRanobeDomain = async (ctx) => {
+  create = async (ctx) => {
     const {
       request: {
         body: { url },
@@ -23,21 +21,23 @@ class RanobeDomainsController {
       return;
     }
 
-    const checkInfo = await this.ranobesRepo.getOneById({ id: ranobe });
-    if (!checkInfo) {
+    const checkRanobe = await this.ranobesRepo.getOneById({ id: ranobe });
+    if (!checkRanobe) {
       ctx.throw(404, 'Ranobe Not Found');
       return;
     }
 
     const domain = new URL(url).hostname;
-    const checkDomain = await this.ranobeDomainsRepo.getOneByDomain({
+    const checkDomain = await this.ranobeDomainsRepo.getOne({
       ranobeId: ranobe,
       domain,
     });
     if (checkDomain) {
-      ctx.throw(409, 'Ranobe From This Domain Already Exists');
+      ctx.throw(409, 'Ranobe With This Domain Already Exists');
       return;
     }
+
+    //TODO add info via scraping
 
     const res = await this.ranobeDomainsRepo.create({
       ranobeId: ranobe,
@@ -45,13 +45,93 @@ class RanobeDomainsController {
       url,
     });
 
-    //TODO add info via scraping
     //TODO add chapters via scraping
 
     ctx.response.body = res;
     ctx.status = 201;
+  };
 
-    return;
+  get = async (ctx) => {
+    const {
+      params: { ranobe },
+    } = ctx;
+
+    const res = await this.ranobeDomainsRepo.get({ ranobeId: ranobe });
+    if (!res || res.length == 0) {
+      ctx.throw(404, 'Ranobe Domains Not Found');
+      return;
+    }
+
+    ctx.response.body = res;
+    ctx.status = 200;
+  };
+
+  getOne = async (ctx) => {
+    const {
+      params: { ranobe, domain },
+    } = ctx;
+
+    const res = await this.ranobeDomainsRepo.getOne({
+      ranobeId: ranobe,
+      domain,
+    });
+    if (!res) {
+      ctx.throw(404, 'Ranobe With This Domain Not Found');
+      return;
+    }
+
+    ctx.response.body = res;
+    ctx.status = 200;
+  };
+
+  //pass only object and some essential not scrapped data
+  //UPD: nothing to update yet
+  update = async (ctx) => {
+    const {
+      params: { ranobe, domain },
+    } = ctx;
+
+    const checkDomain = await this.ranobeDomainsRepo.getOne({
+      ranobeId: ranobe,
+      domain,
+    });
+    if (!checkDomain) {
+      ctx.throw(404, 'Ranobe With This Domain Not Found');
+      return;
+    }
+
+    //TODO update info via scraping using source from checkDomain obj
+
+    const res = await this.ranobeDomainsRepo.update({
+      ranobeId: ranobe,
+      domain,
+      url: checkDomain.source,
+    });
+
+    ctx.response.body = res;
+    ctx.status = 200;
+  };
+
+  delete = async (ctx) => {
+    const {
+      params: { ranobe, domain },
+    } = ctx;
+
+    const checkDomain = await this.ranobeDomainsRepo.getOne({
+      ranobeId: ranobe,
+      domain,
+    });
+    if (!checkDomain) {
+      ctx.throw(404, 'Ranobe With This Domain Not Found');
+      return;
+    }
+
+    await this.ranobeDomainsRepo.delete({
+      ranobeId: ranobe,
+      domain,
+    });
+    ctx.response.body = checkDomain;
+    ctx.status = 200;
   };
 }
 
