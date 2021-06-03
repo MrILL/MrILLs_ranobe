@@ -4,8 +4,7 @@ class RanobesRepo {
   }
 
   async create({ title }) {
-    const insertQuery =
-      'INSERT INTO ranobesInfo (title) VALUES ($1) RETURNING *';
+    const insertQuery = 'INSERT INTO ranobes (title) VALUES ($1) RETURNING *';
     const values = [title];
     const { rows } = await this.db.query(insertQuery, values);
     return rows[0];
@@ -13,13 +12,13 @@ class RanobesRepo {
 
   //TODO add pagination
   async get() {
-    const selectQuery = 'SELECT * FROM ranobesInfo';
+    const selectQuery = 'SELECT * FROM ranobes';
     const { rows } = await this.db.query(selectQuery);
     return rows;
   }
 
   async getOneById({ id }) {
-    const selectQuery = 'SELECT * FROM ranobesInfo WHERE id=$1';
+    const selectQuery = 'SELECT * FROM ranobes WHERE id=$1';
     const values = [id];
     const { rows } = await this.db.query(selectQuery, values);
     return rows[0];

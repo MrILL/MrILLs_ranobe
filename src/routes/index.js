@@ -6,7 +6,7 @@ class MyRouter {
     this.controller = new Controllers(repos);
     this.router = new Router({ prefix: '/ranobes' });
 
-    this.router.get('/', this.controller.listRanobesInfo); // return array of 'ranobesInfo' with JOIN ranobesInfo (key = id)
+    this.router.get('/', this.controller.getRanobes); // return array of 'ranobesInfo' with JOIN ranobesInfo (key = id)
     this.router.post('/', this.controller.addRanobe); //
 
     this.router.get('/:ranobe', this.controller.getRanobeDomain);
