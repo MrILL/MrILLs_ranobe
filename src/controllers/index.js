@@ -8,10 +8,23 @@ class Controllers {
     this.ranobesRepo = ranobesRepo;
   }
 
+  //TODO add pagination
+  listRanobesInfo = async (ctx) => {
+    const res = await this.ranobesRepo.get();
+    if (!res) {
+      ctx.throw(404, 'RanobesInfo Not Found');
+      return;
+    }
+
+    ctx.response.body = res;
+    ctx.status = 201;
+
+    return;
+  };
+
   addRanobe = async (ctx) => {
     //TODO add auth
     const { title } = ctx.request.body;
-    //no validation
 
     const res = await this.ranobesRepo.create({ title });
 
@@ -19,16 +32,25 @@ class Controllers {
     ctx.status = 201;
   };
 
-  async addRanobeDomain(ctx) {
-    const { url } = ctx.request.body;
-    const { ranobe } = ctx.params;
+  getRanobeDomain = async (ctx) => {
+    //TODO
+  };
+
+  addRanobeDomain = async (ctx) => {
+    const {
+      request: {
+        body: { url },
+      },
+      params: { ranobe },
+    } = ctx;
+
     const validation = validator.isURL(url);
     if (!validation) {
       ctx.throw(400);
       return;
     }
 
-    checkInfo = await this.ranobesRepo.getOneById({ id: ranobe });
+    const checkInfo = await this.ranobesRepo.getOneById({ id: ranobe });
     if (!checkInfo) {
       ctx.throw(404, 'Ranobe Not Found');
       return;
@@ -50,13 +72,14 @@ class Controllers {
       url,
     });
 
-    //TODO add chapters //need scraper
+    //TODO add info via scraping
+    //TODO add chapters via scraping
 
     ctx.response.body = res;
     ctx.status = 201;
 
     return;
-  }
+  };
 }
 
 //TODO

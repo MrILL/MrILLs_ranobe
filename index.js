@@ -3,8 +3,8 @@ import Koa from 'koa';
 import koaBody from 'koa-body';
 
 import Router from './src/routes';
-import { pool } from './src/db';
-const { db, init } = pool;
+import { db, init } from './src/db';
+
 import {
   ChaptersRepo,
   RanobeDomainsRepo,
