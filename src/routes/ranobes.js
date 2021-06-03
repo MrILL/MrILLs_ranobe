@@ -7,11 +7,11 @@ class RanobesRouter extends CustomBasicRouter {
     this.controller = new Controllers(repos);
     this.router = new Router();
 
-    this.router.get('/', this.controller.getRanobes); // return array of 'ranobes' with JOIN ranobeDomains (key = id)
-    this.router.post('/', this.controller.addRanobe); //
+    this.router.get('/', this.controller.ranobes.get); // return array of 'ranobes' with JOIN ranobeDomains (key = id)
+    this.router.post('/', this.controller.ranobes.add);
 
-    // this.router.put('/:ranobe', this.controller.updateRanobe); //update one 'ranobes'
-    // this.router.delete('/:ranobe', this.controller.deleteRanobe); //delete one 'ranobes'
+    this.router.put('/:ranobe', this.controller.ranobes.update);
+    // this.router.delete('/:ranobe', this.controller.deleteRanobe);
   }
 }
 

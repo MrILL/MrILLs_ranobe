@@ -23,6 +23,13 @@ class RanobesRepo {
     const { rows } = await this.db.query(selectQuery, values);
     return rows[0];
   }
+
+  async update({ ranobeId, title }) {
+    const updateQuery = 'UPDATE ranobes SET title=$2 WHERE id=$1 RETURNING *';
+    const values = [ranobeId, title];
+    const { rows } = await this.db.query(updateQuery, values);
+    return rows[0];
+  }
 }
 
 export default RanobesRepo;
