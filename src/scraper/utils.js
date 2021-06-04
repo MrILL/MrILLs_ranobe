@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-class RanobeInfo {
+class Ranobe {
   constructor(title, firstChapterSrc) {
     this.title = title;
     this.firstChapterSrc = firstChapterSrc;
@@ -44,7 +44,7 @@ const cheerioCleanEachClass = (data) => {
 };
 
 export {
-  RanobeInfo,
+  Ranobe as RanobeInfo,
   Chapter,
   getFromStaticSrc,
   cheerioCleanClass,

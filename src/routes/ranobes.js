@@ -1,17 +1,17 @@
 import Router from 'koa-router';
 import Controllers from '../controllers';
-import CustomBasicRouter from './CustomBasicRouter';
+import CustomBasicRouter from './utils/CustomBasicRouter';
 
 class RanobesRouter extends CustomBasicRouter {
   constructor(repos) {
-    this.controller = new Controllers(repos);
-    this.router = new Router();
+    this.controller = new Controllers(repos).ranobes;
+    this.router = new Router({ prefix: '/ranobes' });
 
-    this.router.get('/', this.controller.ranobes.get); // return array of 'ranobes' with JOIN ranobeDomains (key = id)
-    this.router.post('/', this.controller.ranobes.add);
+    this.router.get('/', this.controller.get);
+    this.router.post('/', this.controller.add);
 
-    this.router.put('/:ranobe', this.controller.ranobes.update);
-    this.router.delete('/:ranobe', this.controller.ranobes.delete);
+    this.router.put('/:ranobe', this.controller.update);
+    this.router.delete('/:ranobe', this.controller.delete);
   }
 }
 
