@@ -7,12 +7,27 @@ class ChaptersRouter extends CustomBasicRouter {
     this.controller = new Controllers(repos);
     this.router = new Router();
 
-    // this.router.get('/:ranobe/domains/:domain/chapters', this.controller.getChapters);
-    // this.router.post('/:ranobe/domains/:domain/chapters', this.controller.addChapters);
+    this.router.get(
+      '/:ranobe/domains/:domain/chapters',
+      this.controller.chapters.get
+    );
+    this.router.post(
+      '/:ranobe/domains/:domain/chapters',
+      this.controller.chapters.create
+    );
 
-    // this.router.get('/:ranobe/domains/:domain/chapters/:chapter', this.controller.getChapter);
-    // this.router.put('/:ranobe/domains/:domain/chapters/:chapter', this.controller.updateChapter);
-    // this.router.delete('/:ranobe/domains/:domain/chapters/:chapter', this.controller.deleteChapter);
+    this.router.get(
+      '/:ranobe/domains/:domain/chapters/:chapter',
+      this.controller.chapters.getOne
+    );
+    this.router.put(
+      '/:ranobe/domains/:domain/chapters/:chapter',
+      this.controller.chapters.update
+    ); //no use of this right now
+    this.router.delete(
+      '/:ranobe/domains/:domain/chapters/:chapter',
+      this.controller.chapters.delete
+    );
   }
 }
 
