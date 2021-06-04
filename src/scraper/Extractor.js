@@ -6,34 +6,36 @@ class Extractor {
   }
 
   //TODO handle missing scrapings
-  register(hostname, extractChapterFn, extractInfoFn) {
+  register(scraper) {
+    const hostname = scraper.getHostname();
     if (this.registered[hostname]) {
       console.error(hostname, 'already registered');
       return;
     }
-    this.registered[hostname] = { extractChapterFn, extractInfoFn };
+
+    this.registered[hostname] = scraper;
   }
 
   extractInfo(url) {
     const hostname = new URL(url).hostname;
-    const extracter = this.registered[hostname];
-    if (!extracter) {
+    const scraper = this.registered[hostname];
+    if (!scraper) {
       console.error(url, 'have not registered hostname');
       return;
     }
 
-    return extracter.extractInfoFn(url);
+    return scraper.extractInfo(url);
   }
 
   extractChapter(url) {
     const hostname = new URL(url).hostname;
-    const extracter = this.registered[hostname];
-    if (!extracter) {
+    const scraper = this.registered[hostname];
+    if (!scraper) {
       console.error(url, 'have not registered hostname');
       return;
     }
 
-    return extracter.extractChapterFn(url);
+    return scraper.extractChapter(url);
   }
 }
 

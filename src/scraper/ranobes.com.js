@@ -6,46 +6,50 @@ import {
   cheerioCleanClass,
 } from './utils.js';
 
-const extractInfoRule = (info) => {
-  const $ = cheerio.load(info);
+class RanobesScraper {
+  extractInfoRule = (page) => {
+    const $ = cheerio.load(page);
 
-  const titleSelector = $('.title');
-  $($(titleSelector).find('span')).remove();
-  const title = titleSelector.html();
+    const titleSelector = $('.title');
+    $($(titleSelector).find('span')).remove();
+    const title = titleSelector.html();
 
-  const first = 'https://ranobes.com' + $('.r-fullstory-btns a').attr('href');
+    const first = 'https://ranobes.com' + $('.r-fullstory-btns a').attr('href');
 
-  return new RanobeInfo(title, first);
-};
+    return new RanobeInfo(title, first);
+  };
 
-const extractChapterRule = (chapter) => {
-  const $ = cheerio.load(chapter);
+  extractChapterRule = (page) => {
+    const $ = cheerio.load(page);
 
-  const title = $('h1', '#dle-content .block')
-    .not($('h1', '#dle-content .block').children('*').remove())
-    .text();
+    const title = $('h1', '#dle-content .block')
+      .not($('h1', '#dle-content .block').children('*').remove())
+      .text();
 
-  const selector = $('.text#arrticle', '#dle-content .block').children('*');
-  const bodySelection = $(selector)
-    .remove($(selector).find('script').parent())
-    .parent();
-  cheerioCleanClass(bodySelection[0]);
-  //TODO deside about wrapping with div
-  const body = $(bodySelection).html();
-  // const body = $(bodySelection).find('div').html();
+    const selector = $('.text#arrticle', '#dle-content .block').children('*');
+    const bodySelection = $(selector)
+      .remove($(selector).find('script').parent())
+      .parent();
+    cheerioCleanClass(bodySelection[0]);
+    //TODO deside about wrapping with div
+    const body = $(bodySelection).html();
+    // const body = $(bodySelection).find('div').html();
 
-  //TODO image source extraction
+    //TODO image source extraction
 
-  //TODO nomer of chapter extraction
-  return new Chapter(title, body, 1);
-};
+    //TODO nomer of chapter extraction
+    return new Chapter(title, body, 1);
+  };
 
-const extractInfoRanobes = (url) => {
-  return getFromStaticSrc(url, extractInfoRule);
-};
+  getHostname = () => 'ranobes.com';
 
-const extractChapterRanobes = (url) => {
-  return getFromStaticSrc(url, extractChapterRule);
-};
+  extractInfo = (url) => {
+    return getFromStaticSrc(url, this.extractInfoRule);
+  };
 
-export { extractInfoRanobes, extractChapterRanobes };
+  extractChapter = (url) => {
+    return getFromStaticSrc(url, this.extractChapterRule);
+  };
+}
+
+export default RanobesScraper;
