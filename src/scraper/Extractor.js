@@ -1,9 +1,11 @@
 //TODO inspect if wrong url or if not full data in return
+//TODO change console.error to throw
 class Extractor {
   constructor() {
     this.registered = {};
   }
 
+  //TODO handle missing scrapings
   register(hostname, extractChapterFn, extractInfoFn) {
     if (this.registered[hostname]) {
       console.error(hostname, 'already registered');
@@ -19,6 +21,7 @@ class Extractor {
       console.error(url, 'have not registered hostname');
       return;
     }
+
     return extracter.extractInfoFn(url);
   }
 
@@ -29,6 +32,7 @@ class Extractor {
       console.error(url, 'have not registered hostname');
       return;
     }
+
     return extracter.extractChapterFn(url);
   }
 }

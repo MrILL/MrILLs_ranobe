@@ -6,8 +6,6 @@ import {
   cheerioCleanClass,
 } from './utils.js';
 
-//TODO use img from src
-
 const extractInfoRule = (info) => {
   const $ = cheerio.load(info);
 
@@ -28,16 +26,18 @@ const extractChapterRule = (chapter) => {
     .text();
 
   const selector = $('.text#arrticle', '#dle-content .block').children('*');
-  const res = $(selector).remove($(selector).find('script').parent()).parent();
-  cheerioCleanClass(res[0]);
+  const bodySelection = $(selector)
+    .remove($(selector).find('script').parent())
+    .parent();
+  cheerioCleanClass(bodySelection[0]);
+  //TODO deside about wrapping with div
+  const body = $(bodySelection).html();
+  // const body = $(bodySelection).find('div').html();
 
-  //here img
-  // console.log($(res).find('div').html());
+  //TODO image source extraction
 
-  //TODO fix number of page
-  //TODO think are me need this <div> wrap | right now I don't think so
-  return new Chapter(title, $(res).html(), 1); //without wraping div tag
-  // return new Chapter(title, cheerio.html(res)); //wraping with div tag
+  //TODO nomer of chapter extraction
+  return new Chapter(title, body, 1);
 };
 
 const extractInfoRanobes = (url) => {
