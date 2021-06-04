@@ -1,7 +1,7 @@
 import Extractor from './Extractor.js';
-import { extractChapterRanobes, extractInfoRanobes } from './ranobes.com.js';
+import RanobesScraper from './ranobes.com.js';
 
 const extractor = new Extractor();
-extractor.register('ranobes.com', extractChapterRanobes, extractInfoRanobes);
+extractor.register(new RanobesScraper());
 
 export default extractor;
