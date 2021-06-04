@@ -34,8 +34,9 @@ const extractChapterRule = (chapter) => {
   //here img
   // console.log($(res).find('div').html());
 
+  //TODO fix number of page
   //TODO think are me need this <div> wrap | right now I don't think so
-  return new Chapter(title, $(res).html()); //without wraping div tag
+  return new Chapter(title, $(res).html(), 1); //without wraping div tag
   // return new Chapter(title, cheerio.html(res)); //wraping with div tag
 };
 

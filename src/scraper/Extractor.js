@@ -1,3 +1,4 @@
+//TODO inspect if wrong url or if not full data in return
 class Extractor {
   constructor() {
     this.registered = {};
