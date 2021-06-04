@@ -1,18 +1,20 @@
 import Router from 'koa-router';
-import Controllers from '../controllers';
 import CustomBasicRouter from './CustomBasicRouter';
-import RanobesRouter from './ranobes';
-import RanobeDomainsRouter from './ranobeDomains';
-import ChaptersRouter from './chapters';
+import { RanobesController, RanobesRepo, RanobesRouter } from '../ranobes';
 
 class MyRouter extends CustomBasicRouter {
-  constructor(repos) {
-    this.controller = new Controllers(repos);
-    this.router = new Router({ prefix: '/ranobes' });
+  constructor(db) {
+    this.routers = [];
+    this.router = new Router();
 
-    const RouterClasses = [RanobesRouter, RanobeDomainsRouter, ChaptersRouter];
-    RouterClasses.forEach((rClass) => {
-      const route = new rClass(repos);
+    // console.log(RanobesRepo);
+    {
+      const repo = new RanobesRepo(db);
+      const ctrl = new RanobesController(repo);
+      this.routers.push(new RanobesRouter(ctrl));
+    }
+
+    this.routers.forEach((route) => {
       this.router.use(route.routes(), route.allowedMethods());
     });
   }

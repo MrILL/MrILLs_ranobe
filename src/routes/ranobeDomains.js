@@ -5,7 +5,7 @@ import CustomBasicRouter from './CustomBasicRouter';
 class RanobeDomainsRouter extends CustomBasicRouter {
   constructor(repos) {
     this.controller = new Controllers(repos);
-    this.router = new Router();
+    this.router = new Router({ prefix: 'ranobes' });
 
     this.router.get('/:ranobe/domains', this.controller.ranobeDomains.get);
     this.router.post('/:ranobe/domains', this.controller.ranobeDomains.create);
