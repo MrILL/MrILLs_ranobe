@@ -17,8 +17,10 @@ extractor.register('ranobes.com', extractChapterRanobes, extractInfoRanobes);
 
 // const info = await extractor.extractInfo(testSrc[1]);
 // console.log(info);
+// extractor.extractInfo(testSrc[1]).then((v) => console.log(v));
 
 // const chapter = await extractor.extractChapter(src);
 // console.log(chapter);
+// extractor.extractChapter(testSrc[0]).then((v) => console.log(v));
 
 export default extractor;

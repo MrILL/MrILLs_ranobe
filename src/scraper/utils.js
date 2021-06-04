@@ -8,9 +8,14 @@ class RanobeInfo {
 }
 
 class Chapter {
-  constructor(title, htmlBody) {
+  constructor(title, htmlBody, nomer) {
     this.title = title;
     this.body = htmlBody;
+    this.nomer = nomer;
+  }
+
+  isCorrect() {
+    return this.title && this.body && this.nomer;
   }
 }
 
@@ -25,6 +30,10 @@ const getFromStaticSrc = async (src, resp) => {
 };
 
 const cheerioCleanClass = (data) => {
+  if (!data) {
+    console.error('no data provided');
+    return;
+  }
   data.attribs = Object.create(null);
 };
 
