@@ -1,6 +1,6 @@
 import Router from 'koa-router';
 import Controllers from '../controllers';
-import CustomBasicRouter from './utils/CustomBasicRouter';
+import CustomBasicRouter from '../utils/CustomBasicRouter';
 
 class ChaptersRouter extends CustomBasicRouter {
   constructor(repos) {
