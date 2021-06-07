@@ -1,4 +1,4 @@
-class CustomBasicRouter {
+export class CustomBasicRouter {
   routes() {
     return this.router.routes();
   }
@@ -6,5 +6,3 @@ class CustomBasicRouter {
     return this.router.allowedMethods();
   }
 }
-
-export default CustomBasicRouter;

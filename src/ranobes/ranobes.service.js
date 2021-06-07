@@ -1,11 +1,18 @@
-export class RanobesController {
+import { HttpException } from '../utils';
+
+export class RanobesService {
   constructor(ranobesRepo) {
     this.ranobesRepo = ranobesRepo;
   }
 
   //TODO add pagination
   get = async () => {
-    return await this.ranobesRepo.get();
+    const res = await this.ranobesRepo.get();
+    if (!res || res.length == 0) {
+      throw new HttpException(404, 'Ranobes Not Found');
+    }
+
+    return res;
   };
 
   //TODO add auth
@@ -16,20 +23,19 @@ export class RanobesController {
   update = async (id, title) => {
     const checkRanobe = await this.ranobesRepo.getOneById({ id });
     if (!checkRanobe) {
-      throw 'Ranobe Not Found';
+      throw new HttpException(404, 'Ranobe Not Found');
     }
 
     return await this.ranobesRepo.update({ ranobeId: id, title });
   };
 
+  //TODO check how to handle delete error
   delete = async (id) => {
     const checkRanobe = await this.ranobesRepo.getOneById({ id });
     if (!checkRanobe) {
-      throw 'Ranobe Not Found';
+      throw new HttpException(404, 'Ranobe Not Found');
     }
 
-    await this.ranobesRepo.delete({ ranobeId: ranobe });
+    await this.ranobesRepo.delete({ ranobeId: id });
   };
 }
-
-export default RanobesController;

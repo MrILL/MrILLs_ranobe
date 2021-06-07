@@ -1,4 +1,4 @@
-class RanobeDomainsRepo {
+export class RanobeDomainsRepo {
   constructor(db) {
     this.db = db;
   }
@@ -48,5 +48,3 @@ class RanobeDomainsRepo {
     await this.db.query(deleteQuery, values);
   }
 }
-
-export default RanobeDomainsRepo;

@@ -1,22 +1,24 @@
 import Router from 'koa-router';
-import CustomBasicRouter from '../routes/CustomBasicRouter';
+import { CustomBasicRouter } from '../utils';
 
 export class RanobesRouter extends CustomBasicRouter {
-  constructor(ranobesCtrl) {
-    this.controller = ranobesCtrl;
+  constructor(ranobesService) {
+    this.service = ranobesService;
     this.router = new Router({ prefix: '/ranobes' });
 
-    this.router.get('/', this.getRanobes);
-    this.router.post('/', this.createRanobe);
+    this.router.get('/', this.get);
+    this.router.post('/', this.create);
 
     this.router.put('/:ranobe', this.update);
     this.router.delete('/:ranobe', this.delete);
   }
 
-  getRanobes = async (ctx) => {
-    const res = await this.controller.get();
-    if (!res) {
-      ctx.throw(404, 'Ranobe Not Found');
+  get = async (ctx) => {
+    let res;
+    try {
+      res = await this.service.get();
+    } catch (e) {
+      e.throw(ctx);
       return;
     }
 
@@ -24,10 +26,10 @@ export class RanobesRouter extends CustomBasicRouter {
     ctx.status = 200;
   };
 
-  createRanobe = async (ctx) => {
+  create = async (ctx) => {
     const { title } = ctx.request.body;
 
-    const res = await this.controller.add(title);
+    const res = await this.service.add(title);
 
     ctx.response.body = res;
     ctx.status = 201;
@@ -43,9 +45,9 @@ export class RanobesRouter extends CustomBasicRouter {
 
     let res;
     try {
-      res = await this.controller.update(ranobe, title);
+      res = await this.service.update(ranobe, title);
     } catch (e) {
-      ctx.throw(404, e);
+      e.throw(ctx);
       return;
     }
 
@@ -59,12 +61,12 @@ export class RanobesRouter extends CustomBasicRouter {
     } = ctx;
 
     try {
-      await this.ranobesRepo.delete(ranobe);
+      await this.service.delete(ranobe);
     } catch (e) {
-      ctx.throw(404, e);
+      e.throw(ctx);
       return;
     }
 
-    ctx.status = 200;
+    ctx.status = 204;
   };
 }
