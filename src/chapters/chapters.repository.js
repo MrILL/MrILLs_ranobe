@@ -1,4 +1,4 @@
-class ChaptersRepo {
+export class ChaptersRepo {
   constructor(db) {
     this.db = db;
   }
@@ -44,5 +44,3 @@ class ChaptersRepo {
     await this.db.query(deleteQuery, values);
   }
 }
-
-export default ChaptersRepo;

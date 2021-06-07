@@ -93,3 +93,5 @@ Thumbs.db
 assets
 .vscode
 test.sql
+pkg
+db_scripts/test
