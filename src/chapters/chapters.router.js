@@ -6,8 +6,10 @@ export class ChaptersRouter extends CustomBasicRouter {
   constructor(chaptersService) {
     this.service = chaptersService;
 
+    //TODO move 'domains/:domain' to query and use default if empty
+    //right now default is first, that db can give, but need something better
     this.router = new Router({
-      prefix: '/ranobes/:ranobe/domains/:domain/chapters',
+      prefix: '/ranobes/:ranobe/chapters',
     });
 
     this.router.post('/', this.create);
@@ -20,10 +22,10 @@ export class ChaptersRouter extends CustomBasicRouter {
 
   create = async (ctx) => {
     const {
+      params: { ranobe },
       request: {
         body: { url },
       },
-      params: { ranobe, domain },
     } = ctx;
 
     const validation = validator.isURL(url);
@@ -34,8 +36,9 @@ export class ChaptersRouter extends CustomBasicRouter {
 
     let res;
     try {
-      res = await this.service.create(ranobe, domain, url);
+      res = await this.service.create(ranobe, url);
     } catch (e) {
+      //TODO intercept err into http exception
       e.throw(ctx);
       return;
     }
@@ -46,7 +49,10 @@ export class ChaptersRouter extends CustomBasicRouter {
 
   get = async (ctx) => {
     const {
-      params: { ranobe, domain },
+      params: { ranobe },
+      request: {
+        query: { domain },
+      },
     } = ctx;
 
     let res;
@@ -63,7 +69,10 @@ export class ChaptersRouter extends CustomBasicRouter {
 
   getOne = async (ctx) => {
     const {
-      params: { ranobe, domain, chapter },
+      params: { ranobe, chapter },
+      request: {
+        query: { domain },
+      },
     } = ctx;
 
     let res;
@@ -80,7 +89,10 @@ export class ChaptersRouter extends CustomBasicRouter {
 
   update = async (ctx) => {
     const {
-      params: { ranobe, domain, chapter },
+      params: { ranobe, chapter },
+      request: {
+        query: { domain },
+      },
     } = ctx;
 
     let res;
@@ -97,7 +109,10 @@ export class ChaptersRouter extends CustomBasicRouter {
 
   delete = async (ctx) => {
     const {
-      params: { ranobe, domain, chapter },
+      params: { ranobe, chapter },
+      request: {
+        query: { domain },
+      },
     } = ctx;
 
     try {

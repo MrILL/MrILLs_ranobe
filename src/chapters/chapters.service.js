@@ -8,7 +8,8 @@ export class ChaptersService {
     this.ranobesRepo = ranobesRepo;
   }
 
-  create = async (ranobeId, domain, url) => {
+  create = async (ranobeId, url) => {
+    const domain = extractor.extractDomain(url);
     const ranobeDomain = await this.ranobeDomainsRepo.getOne({
       ranobeId,
       domain,
@@ -43,16 +44,29 @@ export class ChaptersService {
   };
 
   get = async (ranobeId, domain) => {
-    const checkDomain = await this.ranobeDomainsRepo.getOne({
-      ranobeId,
-      domain,
-    });
-    if (!checkDomain) {
-      throw new HttpException(404, 'Ranobe From This Domain Not Found');
+    let ranobeDomainId;
+    if (domain) {
+      const checkRanobeDomain = await this.ranobeDomainsRepo.getOne({
+        ranobeId,
+        domain,
+      });
+      if (!checkRanobeDomain) {
+        // throw new RanobeNotFoundError; //TODO interception
+        throw new HttpException(404, 'Ranobe From This Domain Not Found');
+      }
+
+      ranobeDomainId = checkRanobeDomain.id;
+    } else {
+      const ranobeDomains = await this.ranobeDomainsRepo.get({ ranobeId });
+      if (!ranobeDomains || ranobeDomains.length == 0) {
+        throw new HttpException(404, 'Ranobe From This Domain Not Found');
+      }
+
+      ranobeDomainId = ranobeDomains[0].id;
     }
 
     const res = await this.chaptersRepo.get({
-      ranobeDomainId: checkDomain.id,
+      ranobeDomainId,
     });
     if (!res || res.length == 0) {
       throw new HttpException(404, 'Chapters In This Domain Not Found');
@@ -62,16 +76,28 @@ export class ChaptersService {
   };
 
   getOne = async (ranobeId, domain, chapterNomer) => {
-    const ranobeDomain = await this.ranobeDomainsRepo.getOne({
-      ranobeId,
-      domain,
-    });
-    if (!ranobeDomain) {
-      throw new HttpException(404, 'Ranobe From This Domain Not Found');
+    let ranobeDomainId;
+    if (domain) {
+      const ranobeDomain = await this.ranobeDomainsRepo.getOne({
+        ranobeId,
+        domain,
+      });
+      if (!ranobeDomain) {
+        throw new HttpException(404, 'Ranobe From This Domain Not Found');
+      }
+
+      ranobeDomainId = ranobeDomain.id;
+    } else {
+      const ranobeDomains = await this.ranobeDomainsRepo.get({ ranobeId });
+      if (!ranobeDomains || ranobeDomains.length == 0) {
+        throw new HttpException(404, 'Ranobe From This Domain Not Found');
+      }
+
+      ranobeDomainId = ranobeDomains[0].id;
     }
 
     const res = await this.chaptersRepo.getOne({
-      ranobeDomainId: ranobeDomain.id,
+      ranobeDomainId,
       nomer: chapterNomer,
     });
     if (!res) {
@@ -81,22 +107,10 @@ export class ChaptersService {
     return res;
   };
 
+  //TODO use getOne
   update = async (ranobeId, domain, chapterNomer) => {
-    const checkDomain = await this.ranobeDomainsRepo.getOne({
-      ranobeId,
-      domain,
-    });
-    if (!checkDomain) {
-      throw new HttpException(404, 'Ranobe From This Domain Not Found');
-    }
-
-    const chapter = await this.chaptersRepo.getOne({
-      ranobeDomainId: checkDomain.id,
-      nomer: chapterNomer,
-    });
-    if (!chapter) {
-      throw new HttpException(404, 'Chapter Not Found');
-    }
+    //TODO deside about checking it because of it checking inside getOne
+    const chapter = await this.getOne(ranobeId, domain, chapterNomer);
 
     const chapterExtracted = await extractor.extractChapter(chapter.source);
     if (!chapterExtracted || !chapterExtracted.isCorrect()) {
@@ -114,29 +128,14 @@ export class ChaptersService {
     return res;
   };
 
+  //TODO use getOne
   //TODO check how to handle delete error
   delete = async (ranobeId, domain, chapterNomer) => {
-    const checkRanobe = await this.ranobesRepo.getOneById({ id: ranobeId });
-    if (!checkRanobe) {
-      throw new HttpException(404, 'Ranobe Not Found');
-    }
-
-    const ranobeDomain = await this.ranobeDomainsRepo.getOne({
-      ranobeId,
-      domain,
-    });
-    if (!ranobeDomain) {
-      throw new HttpException(404, 'Ranobe From This Domain Not Found');
-    }
-
-    const chapter = await this.chaptersRepo.getOne({
-      ranobeDomainId: ranobeDomain.id,
-      nomer: chapterNomer,
-    });
-    if (!chapter) {
-      throw new HttpException(404, 'Chapter Not Found');
-    }
+    //TODO deside about checking it because of it checking inside getOne
+    const chapter = await this.getOne(ranobeId, domain, chapterNomer);
 
     await this.chaptersRepo.delete({ chapterId: chapter.id });
   };
+
+  //TODO getOneDomain(domain) return (domain)? db(domain) : db.getDefaultDomain
 }

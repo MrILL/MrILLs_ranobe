@@ -23,3 +23,4 @@ CREATE TABLE IF NOT EXISTS chapters (
     title VARCHAR(250),
     body TEXT
 );
+-- TODO deside about changing type of 'nomer' from INT to VARCHAR
