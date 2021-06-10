@@ -6,18 +6,15 @@ export class ChaptersRouter extends CustomBasicRouter {
   constructor(chaptersService) {
     this.service = chaptersService;
 
-    //TODO move 'domains/:domain' to query and use default if empty
-    //right now default is first, that db can give, but need something better
-    this.router = new Router({
-      prefix: '/ranobes/:ranobe/chapters',
-    });
+    this.router = new Router({ prefix: '/ranobes/:ranobe' });
 
-    this.router.post('/', this.create);
-    this.router.get('/', this.get);
+    this.router.post('/chapters', this.create);
+    this.router.get('/chapters', this.get);
 
-    this.router.get('/:chapter', this.getOne);
-    this.router.put('/:chapter', this.update); //no use of this right now
-    this.router.delete('/:chapter', this.delete);
+    const onesPostfix = '/:domain/chapters/:chapter';
+    this.router.get(onesPostfix, this.getOne);
+    this.router.put(onesPostfix, this.update); //no use of this right now
+    this.router.delete(onesPostfix, this.delete);
   }
 
   create = async (ctx) => {
@@ -69,10 +66,7 @@ export class ChaptersRouter extends CustomBasicRouter {
 
   getOne = async (ctx) => {
     const {
-      params: { ranobe, chapter },
-      request: {
-        query: { domain },
-      },
+      params: { ranobe, domain, chapter },
     } = ctx;
 
     let res;
@@ -89,10 +83,7 @@ export class ChaptersRouter extends CustomBasicRouter {
 
   update = async (ctx) => {
     const {
-      params: { ranobe, chapter },
-      request: {
-        query: { domain },
-      },
+      params: { ranobe, domain, chapter },
     } = ctx;
 
     let res;
@@ -109,10 +100,7 @@ export class ChaptersRouter extends CustomBasicRouter {
 
   delete = async (ctx) => {
     const {
-      params: { ranobe, chapter },
-      request: {
-        query: { domain },
-      },
+      params: { ranobe, domain, chapter },
     } = ctx;
 
     try {

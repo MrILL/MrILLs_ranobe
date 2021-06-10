@@ -57,6 +57,7 @@ export class ChaptersService {
 
       ranobeDomainId = checkRanobeDomain.id;
     } else {
+      //TODO think about better way of default domain
       const ranobeDomains = await this.ranobeDomainsRepo.get({ ranobeId });
       if (!ranobeDomains || ranobeDomains.length == 0) {
         throw new HttpException(404, 'Ranobe From This Domain Not Found');
@@ -128,7 +129,6 @@ export class ChaptersService {
     return res;
   };
 
-  //TODO use getOne
   //TODO check how to handle delete error
   delete = async (ranobeId, domain, chapterNomer) => {
     //TODO deside about checking it because of it checking inside getOne
