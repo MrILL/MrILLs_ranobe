@@ -87,10 +87,12 @@ export class RanobeDomainsService {
       throw new HttpException(404, 'Ranobe With This Domain Not Found');
     }
 
-    await this.ranobeDomainsRepo.delete({
+    const res = await this.ranobeDomainsRepo.delete({
       ranobeId,
       domain,
     });
-    return true;
+    if (!res) {
+      throw new HttpException(500, 'unable to delete record');
+    }
   };
 }

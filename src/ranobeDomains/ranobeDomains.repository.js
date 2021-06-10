@@ -45,6 +45,8 @@ export class RanobeDomainsRepo {
     const deleteQuery =
       'DELETE FROM ranobeDomains WHERE ranobeId=$1 AND domain=$2';
     const values = [ranobeId, domain];
-    await this.db.query(deleteQuery, values);
+    const { rowCount } = await this.db.query(deleteQuery, values);
+
+    return rowCount === 1;
   }
 }

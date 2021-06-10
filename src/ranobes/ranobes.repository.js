@@ -38,9 +38,9 @@ export class RanobesRepo {
   async delete({ ranobeId }) {
     const deleteQuery = 'DELETE FROM ranobes WHERE id=$1';
     const values = [ranobeId];
-    await this.db.query(deleteQuery, values);
+    const { rowCount } = await this.db.query(deleteQuery, values);
 
-    return true;
+    return rowCount === 1;
   }
 }
 

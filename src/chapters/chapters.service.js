@@ -129,12 +129,14 @@ export class ChaptersService {
     return res;
   };
 
-  //TODO check how to handle delete error
   delete = async (ranobeId, domain, chapterNomer) => {
     //TODO deside about checking it because of it checking inside getOne
     const chapter = await this.getOne(ranobeId, domain, chapterNomer);
 
-    await this.chaptersRepo.delete({ chapterId: chapter.id });
+    const res = await this.chaptersRepo.delete({ chapterId: chapter.id });
+    if (!res) {
+      throw new HttpException(500, 'unable to delete record');
+    }
   };
 
   //TODO getOneDomain(domain) return (domain)? db(domain) : db.getDefaultDomain

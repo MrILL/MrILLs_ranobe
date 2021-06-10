@@ -5,6 +5,12 @@ export class HttpException {
   }
 
   throw = (ctx) => {
-    ctx.throw(this.statusCode, this.message);
+    ctx.statusCode = this.statusCode;
+    ctx.response.body = {
+      success: false,
+      error: {
+        message: this.message,
+      },
+    };
   };
 }

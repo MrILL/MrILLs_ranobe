@@ -36,6 +36,9 @@ export class RanobesService {
       throw new HttpException(404, 'Ranobe Not Found');
     }
 
-    await this.ranobesRepo.delete({ ranobeId: id });
+    const res = await this.ranobesRepo.delete({ ranobeId: id });
+    if (!res) {
+      throw new HttpException(500, 'unable to delete record');
+    }
   };
 }
