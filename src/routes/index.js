@@ -20,16 +20,12 @@ class MyRouter extends CustomBasicRouter {
     const ranobeDomainsRepo = new RanobeDomainsRepo(db);
     const ranobeDomainsSrvc = new RanobeDomainsService(
       ranobeDomainsRepo,
-      ranobesRepo
+      ranobesSrvc
     );
     this.routers.push(new RanobeDomainsRouter(ranobeDomainsSrvc));
 
     const chaptersRepo = new ChaptersRepo(db);
-    const chaptersSrvc = new ChaptersService(
-      ranobesRepo,
-      ranobeDomainsRepo,
-      chaptersRepo
-    );
+    const chaptersSrvc = new ChaptersService(chaptersRepo, ranobeDomainsSrvc);
     this.routers.push(new ChaptersRouter(chaptersSrvc));
 
     this.routers.forEach((route) => {

@@ -1,13 +1,13 @@
 import { HttpException } from '../utils';
 
 export class RanobeDomainsService {
-  constructor(ranobeDomainsRepo, ranobesRepo) {
+  constructor(ranobeDomainsRepo, ranobesSrvc) {
     this.ranobeDomainsRepo = ranobeDomainsRepo;
-    this.ranobesRepo = ranobesRepo;
+    this.ranobesSrvc = ranobesSrvc;
   }
 
   create = async (ranobeId, url) => {
-    const checkRanobe = await this.ranobesRepo.getOneById({ id: ranobeId });
+    const checkRanobe = await this.ranobesSrvc.getOne(ranobeId);
     if (!checkRanobe) {
       throw new HttpException(404, 'Ranobe Not Found');
     }
@@ -77,7 +77,6 @@ export class RanobeDomainsService {
     return res;
   };
 
-  //TODO check how to handle delete error
   delete = async (ranobeId, domain) => {
     const checkDomain = await this.ranobeDomainsRepo.getOne({
       ranobeId,

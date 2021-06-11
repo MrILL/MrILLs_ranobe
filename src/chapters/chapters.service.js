@@ -2,18 +2,14 @@ import { HttpException } from '../utils';
 import extractor from '../scraper';
 
 export class ChaptersService {
-  constructor(ranobesRepo, ranobeDomainsRepo, chaptersRepo) {
+  constructor(chaptersRepo, ranobeDomainsSrvc) {
     this.chaptersRepo = chaptersRepo;
-    this.ranobeDomainsRepo = ranobeDomainsRepo;
-    this.ranobesRepo = ranobesRepo;
+    this.ranobeDomainsSrvc = ranobeDomainsSrvc;
   }
 
   create = async (ranobeId, url) => {
     const domain = extractor.extractDomain(url);
-    const ranobeDomain = await this.ranobeDomainsRepo.getOne({
-      ranobeId,
-      domain,
-    });
+    const ranobeDomain = await this.ranobeDomainsSrvc.getOne(ranobeId, domain);
     if (!ranobeDomain) {
       throw new HttpException(404, 'Ranobe From This Domain Not Found');
     }
@@ -46,10 +42,10 @@ export class ChaptersService {
   get = async (ranobeId, domain) => {
     let ranobeDomainId;
     if (domain) {
-      const checkRanobeDomain = await this.ranobeDomainsRepo.getOne({
+      const checkRanobeDomain = await this.ranobeDomainsSrvc.getOne(
         ranobeId,
-        domain,
-      });
+        domain
+      );
       if (!checkRanobeDomain) {
         // throw new RanobeNotFoundError; //TODO interception
         throw new HttpException(404, 'Ranobe From This Domain Not Found');
@@ -58,7 +54,7 @@ export class ChaptersService {
       ranobeDomainId = checkRanobeDomain.id;
     } else {
       //TODO think about better way of default domain
-      const ranobeDomains = await this.ranobeDomainsRepo.get({ ranobeId });
+      const ranobeDomains = await this.ranobeDomainsSrvc.get(ranobeId);
       if (!ranobeDomains || ranobeDomains.length == 0) {
         throw new HttpException(404, 'Ranobe From This Domain Not Found');
       }
@@ -79,17 +75,17 @@ export class ChaptersService {
   getOne = async (ranobeId, domain, chapterNomer) => {
     let ranobeDomainId;
     if (domain) {
-      const ranobeDomain = await this.ranobeDomainsRepo.getOne({
+      const ranobeDomain = await this.ranobeDomainsSrvc.getOne(
         ranobeId,
-        domain,
-      });
+        domain
+      );
       if (!ranobeDomain) {
         throw new HttpException(404, 'Ranobe From This Domain Not Found');
       }
 
       ranobeDomainId = ranobeDomain.id;
     } else {
-      const ranobeDomains = await this.ranobeDomainsRepo.get({ ranobeId });
+      const ranobeDomains = await this.ranobeDomainsSrvc.get(ranobeId);
       if (!ranobeDomains || ranobeDomains.length == 0) {
         throw new HttpException(404, 'Ranobe From This Domain Not Found');
       }
