@@ -20,8 +20,17 @@ export class RanobesService {
     return await this.ranobesRepo.create({ title });
   };
 
+  getOne = async (id) => {
+    const res = await this.ranobesRepo.getOne({ id });
+    if (!res) {
+      throw new HttpException(404, 'Ranobe Not Found');
+    }
+
+    return res;
+  };
+
   update = async (id, title) => {
-    const checkRanobe = await this.ranobesRepo.getOneById({ id });
+    const checkRanobe = await this.ranobesRepo.getOne({ id });
     if (!checkRanobe) {
       throw new HttpException(404, 'Ranobe Not Found');
     }
@@ -31,7 +40,7 @@ export class RanobesService {
 
   //TODO check how to handle delete error
   delete = async (id) => {
-    const checkRanobe = await this.ranobesRepo.getOneById({ id });
+    const checkRanobe = await this.ranobesRepo.getOne({ id });
     if (!checkRanobe) {
       throw new HttpException(404, 'Ranobe Not Found');
     }

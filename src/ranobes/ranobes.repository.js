@@ -19,7 +19,7 @@ export class RanobesRepo {
     return rows;
   }
 
-  async getOneById({ id }) {
+  async getOne({ id }) {
     const selectQuery = 'SELECT * FROM ranobes WHERE id=$1';
     const values = [id];
     const { rows } = await this.db.query(selectQuery, values);

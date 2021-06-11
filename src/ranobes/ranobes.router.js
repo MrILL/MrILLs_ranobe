@@ -6,12 +6,22 @@ export class RanobesRouter extends CustomBasicRouter {
     this.service = ranobesService;
     this.router = new Router({ prefix: '/ranobes' });
 
-    this.router.get('/', this.get);
     this.router.post('/', this.create);
+    this.router.get('/', this.get);
 
+    this.router.get('/:ranobe', this.getOne);
     this.router.put('/:ranobe', this.update);
     this.router.delete('/:ranobe', this.delete);
   }
+
+  create = async (ctx) => {
+    const { title } = ctx.request.body;
+
+    const res = await this.service.add(title);
+
+    ctx.response.body = res;
+    ctx.status = 201;
+  };
 
   get = async (ctx) => {
     let res;
@@ -26,13 +36,21 @@ export class RanobesRouter extends CustomBasicRouter {
     ctx.status = 200;
   };
 
-  create = async (ctx) => {
-    const { title } = ctx.request.body;
+  getOne = async (ctx) => {
+    const {
+      params: { ranobe },
+    } = ctx;
 
-    const res = await this.service.add(title);
+    let res;
+    try {
+      res = await this.service.getOne(ranobe);
+    } catch (e) {
+      e.throw(ctx);
+      return;
+    }
 
     ctx.response.body = res;
-    ctx.status = 201;
+    ctx.status = 200;
   };
 
   update = async (ctx) => {
