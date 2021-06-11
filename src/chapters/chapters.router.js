@@ -1,6 +1,6 @@
 import Router from 'koa-router';
 import validator from 'validator';
-import { CustomBasicRouter } from '../utils';
+import { CustomBasicRouter, errorHandler } from '../utils';
 
 export class ChaptersRouter extends CustomBasicRouter {
   constructor(chaptersService) {
@@ -36,7 +36,7 @@ export class ChaptersRouter extends CustomBasicRouter {
       res = await this.service.create(ranobe, url);
     } catch (e) {
       //TODO intercept err into http exception
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 
@@ -56,7 +56,7 @@ export class ChaptersRouter extends CustomBasicRouter {
     try {
       res = await this.service.get(ranobe, domain);
     } catch (e) {
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 
@@ -73,7 +73,7 @@ export class ChaptersRouter extends CustomBasicRouter {
     try {
       res = await this.service.getOne(ranobe, domain, chapter);
     } catch (e) {
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 
@@ -90,7 +90,7 @@ export class ChaptersRouter extends CustomBasicRouter {
     try {
       res = await this.service.update(ranobe, domain, chapter);
     } catch (e) {
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 
@@ -106,7 +106,7 @@ export class ChaptersRouter extends CustomBasicRouter {
     try {
       await this.service.delete(ranobe, domain, chapter);
     } catch (e) {
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 

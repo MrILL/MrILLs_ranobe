@@ -1,5 +1,5 @@
 import Router from 'koa-router';
-import { CustomBasicRouter } from '../utils';
+import { CustomBasicRouter, errorHandler } from '../utils';
 
 export class RanobesRouter extends CustomBasicRouter {
   constructor(ranobesService) {
@@ -28,7 +28,7 @@ export class RanobesRouter extends CustomBasicRouter {
     try {
       res = await this.service.get();
     } catch (e) {
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 
@@ -45,7 +45,7 @@ export class RanobesRouter extends CustomBasicRouter {
     try {
       res = await this.service.getOne(ranobe);
     } catch (e) {
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 
@@ -65,7 +65,7 @@ export class RanobesRouter extends CustomBasicRouter {
     try {
       res = await this.service.update(ranobe, title);
     } catch (e) {
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 
@@ -81,7 +81,7 @@ export class RanobesRouter extends CustomBasicRouter {
     try {
       await this.service.delete(ranobe);
     } catch (e) {
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 

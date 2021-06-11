@@ -1,6 +1,6 @@
 import Router from 'koa-router';
 import validator from 'validator';
-import { CustomBasicRouter } from '../utils';
+import { CustomBasicRouter, errorHandler } from '../utils';
 
 export class RanobeDomainsRouter extends CustomBasicRouter {
   constructor(ranobeDomainsService) {
@@ -34,7 +34,7 @@ export class RanobeDomainsRouter extends CustomBasicRouter {
     try {
       res = await this.service.create(ranobe, url);
     } catch (e) {
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 
@@ -51,7 +51,7 @@ export class RanobeDomainsRouter extends CustomBasicRouter {
     try {
       res = await this.service.get(ranobe);
     } catch (e) {
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 
@@ -68,7 +68,7 @@ export class RanobeDomainsRouter extends CustomBasicRouter {
     try {
       res = await this.service.getOne(ranobe, domain);
     } catch (e) {
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 
@@ -85,7 +85,7 @@ export class RanobeDomainsRouter extends CustomBasicRouter {
     try {
       res = await this.service.update(ranobe, domain);
     } catch (e) {
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 
@@ -101,7 +101,7 @@ export class RanobeDomainsRouter extends CustomBasicRouter {
     try {
       await this.service.delete(ranobe, domain);
     } catch (e) {
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 

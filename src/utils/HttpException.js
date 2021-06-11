@@ -5,7 +5,7 @@ export class HttpException {
   }
 
   throw = (ctx) => {
-    ctx.statusCode = this.statusCode;
+    ctx.status = this.statusCode;
     ctx.response.body = {
       success: false,
       error: {
