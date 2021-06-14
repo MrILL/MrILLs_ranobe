@@ -17,7 +17,7 @@ export class RanobesRouter extends CustomBasicRouter {
   create = async (ctx) => {
     const { title } = ctx.request.body;
 
-    const res = await this.service.add(title);
+    const res = await this.service.create(title);
 
     ctx.response.body = res;
     ctx.status = 201;

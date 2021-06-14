@@ -1,4 +1,4 @@
-import { HttpException } from '../utils';
+import { HttpException, genBase64UID } from '../utils';
 
 export class RanobeDomainsService {
   constructor(ranobeDomainsRepo, ranobesSrvc) {
@@ -23,7 +23,9 @@ export class RanobeDomainsService {
 
     //TODO add info via scraping
 
+    const id = genBase64UID(7);
     const res = await this.ranobeDomainsRepo.create({
+      id,
       ranobeId,
       domain,
       url,

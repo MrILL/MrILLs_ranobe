@@ -3,11 +3,11 @@ export class ChaptersRepo {
     this.db = db;
   }
 
-  async create({ ranobeDomainId, title, body, nomer, source }) {
+  async create({ id, ranobeDomainId, title, body, nomer, source }) {
     const insertQuery =
-      'INSERT INTO chapters (ranobeDomainId, title, body, nomer, source) \
-      VALUES ($1, $2, $3, $4, $5) RETURNING *';
-    const values = [ranobeDomainId, title, body, nomer, source];
+      'INSERT INTO chapters (id, ranobeDomainId, title, body, nomer, source) \
+      VALUES ($1, $2, $3, $4, $5, $6) RETURNING id';
+    const values = [id, ranobeDomainId, title, body, nomer, source];
     const { rows } = await this.db.query(insertQuery, values);
 
     return rows[0];

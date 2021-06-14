@@ -1,4 +1,4 @@
-import { HttpException } from '../utils';
+import { HttpException, genBase64UID } from '../utils';
 
 export class RanobesService {
   constructor(ranobesRepo) {
@@ -16,8 +16,9 @@ export class RanobesService {
   };
 
   //TODO add auth
-  add = async (title) => {
-    return await this.ranobesRepo.create({ title });
+  create = async (title) => {
+    const id = genBase64UID(7);
+    return await this.ranobesRepo.create({ id, title });
   };
 
   getOne = async (id) => {

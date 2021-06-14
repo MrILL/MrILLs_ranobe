@@ -1,4 +1,4 @@
-import { HttpException } from '../utils';
+import { HttpException, genBase64UID } from '../utils';
 import extractor from '../scraper';
 
 export class ChaptersService {
@@ -28,7 +28,9 @@ export class ChaptersService {
       throw new HttpException(409, 'Chapter In This Domain Already Exists');
     }
 
+    const id = genBase64UID(7);
     const res = await this.chaptersRepo.create({
+      id,
       ranobeDomainId: ranobeDomain.id,
       title: chapter.title,
       body: chapter.body,

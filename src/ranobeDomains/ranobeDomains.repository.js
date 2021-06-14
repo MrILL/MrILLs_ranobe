@@ -3,11 +3,11 @@ export class RanobeDomainsRepo {
     this.db = db;
   }
 
-  async create({ ranobeId, domain, url }) {
+  async create({ id, ranobeId, domain, url }) {
     const insertQuery =
-      'INSERT INTO ranobeDomains (ranobeId, domain, source) \
-      VALUES ($1, $2, $3) RETURNING *';
-    const values = [ranobeId, domain, url];
+      'INSERT INTO ranobeDomains (id, ranobeId, domain, source) \
+      VALUES ($1, $2, $3, $4) RETURNING id, domain';
+    const values = [id, ranobeId, domain, url];
     const { rows } = await this.db.query(insertQuery, values);
 
     return rows[0];

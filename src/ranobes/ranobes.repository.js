@@ -3,9 +3,10 @@ export class RanobesRepo {
     this.db = db;
   }
 
-  async create({ title }) {
-    const insertQuery = 'INSERT INTO ranobes (title) VALUES ($1) RETURNING *';
-    const values = [title];
+  async create({ id, title }) {
+    const insertQuery =
+      'INSERT INTO ranobes (id, title) VALUES ($1, $2) RETURNING id';
+    const values = [id, title];
     const { rows } = await this.db.query(insertQuery, values);
 
     return rows[0];
