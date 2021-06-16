@@ -1,12 +1,10 @@
-import Router from 'koa-router';
 import validator from 'validator';
 import { CustomBasicRouter, errorHandler } from '../utils';
 
 export class ChaptersRouter extends CustomBasicRouter {
   constructor(chaptersService) {
+    super('/ranobes/:ranobe');
     this.service = chaptersService;
-
-    this.router = new Router({ prefix: '/ranobes/:ranobe' });
 
     this.router.post('/chapters', this.create);
     this.router.get('/chapters', this.get);

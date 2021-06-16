@@ -1,12 +1,10 @@
-import Router from 'koa-router';
 import validator from 'validator';
 import { CustomBasicRouter, errorHandler } from '../utils';
 
 export class RanobeDomainsRouter extends CustomBasicRouter {
   constructor(ranobeDomainsService) {
+    super('/ranobes/:ranobe/domains');
     this.service = ranobeDomainsService;
-
-    this.router = new Router({ prefix: '/ranobes/:ranobe/domains' });
 
     this.router.post('/', this.create);
     this.router.get('/', this.get);

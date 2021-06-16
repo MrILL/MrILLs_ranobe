@@ -1,10 +1,9 @@
-import Router from 'koa-router';
 import { CustomBasicRouter, errorHandler } from '../utils';
 
 export class RanobesRouter extends CustomBasicRouter {
   constructor(ranobesService) {
+    super('/ranobes');
     this.service = ranobesService;
-    this.router = new Router({ prefix: '/ranobes' });
 
     this.router.post('/', this.create);
     this.router.get('/', this.get);
