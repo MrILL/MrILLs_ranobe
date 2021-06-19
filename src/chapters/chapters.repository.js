@@ -6,7 +6,7 @@ export class ChaptersRepo {
   async create({ id, ranobeDomainId, title, body, nomer, source }) {
     const insertQuery =
       'INSERT INTO chapters (id, ranobeDomainId, title, body, nomer, source) \
-      VALUES ($1, $2, $3, $4, $5, $6) RETURNING id';
+      VALUES ($1, $2, $3, $4, $5, $6) RETURNING nomer';
     const values = [id, ranobeDomainId, title, body, nomer, source];
     const { rows } = await this.db.query(insertQuery, values);
 
