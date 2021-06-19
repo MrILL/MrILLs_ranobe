@@ -5,42 +5,41 @@ export class RanobesService {
     this.ranobesRepo = ranobesRepo;
   }
 
-  //TODO add pagination
-  get = async () => {
-    const res = await this.ranobesRepo.get();
-    if (!res || res.length == 0) {
-      throw new HttpException(404, 'Ranobes Not Found');
-    }
-
-    return res;
-  };
-
   //TODO add auth
-  create = async (title) => {
+  async create(title) {
     const id = genBase64UID(7);
     return await this.ranobesRepo.create({ id, title });
-  };
+  }
 
-  getOne = async (id) => {
+  async getOne(id) {
     const res = await this.ranobesRepo.getOne({ id });
     if (!res) {
       throw new HttpException(404, 'Ranobe Not Found');
     }
 
     return res;
-  };
+  }
 
-  update = async (id, title) => {
+  //TODO add pagination
+  async get() {
+    const res = await this.ranobesRepo.get();
+    if (!res || res.length === 0) {
+      throw new HttpException(404, 'Ranobes Not Found');
+    }
+
+    return res;
+  }
+
+  async update(id, title) {
     const checkRanobe = await this.ranobesRepo.getOne({ id });
     if (!checkRanobe) {
       throw new HttpException(404, 'Ranobe Not Found');
     }
 
     return await this.ranobesRepo.update({ ranobeId: id, title });
-  };
+  }
 
-  //TODO check how to handle delete error
-  delete = async (id) => {
+  async delete(id) {
     const checkRanobe = await this.ranobesRepo.getOne({ id });
     if (!checkRanobe) {
       throw new HttpException(404, 'Ranobe Not Found');
@@ -50,5 +49,5 @@ export class RanobesService {
     if (!res) {
       throw new HttpException(500, 'unable to delete record');
     }
-  };
+  }
 }

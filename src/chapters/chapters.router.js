@@ -15,7 +15,7 @@ export class ChaptersRouter extends CustomBasicRouter {
     this.router.delete(onesPostfix, this.delete);
   }
 
-  create = async (ctx) => {
+  async create(ctx) {
     const {
       params: { ranobe },
       request: {
@@ -40,9 +40,9 @@ export class ChaptersRouter extends CustomBasicRouter {
 
     ctx.response.body = res;
     ctx.status = 201;
-  };
+  }
 
-  get = async (ctx) => {
+  async get(ctx) {
     const {
       params: { ranobe },
       request: {
@@ -60,9 +60,9 @@ export class ChaptersRouter extends CustomBasicRouter {
 
     ctx.response.body = res;
     ctx.status = 200;
-  };
+  }
 
-  getOne = async (ctx) => {
+  async getOne(ctx) {
     const {
       params: { ranobe, domain, chapter },
     } = ctx;
@@ -77,9 +77,9 @@ export class ChaptersRouter extends CustomBasicRouter {
 
     ctx.response.body = res;
     ctx.status = 200;
-  };
+  }
 
-  update = async (ctx) => {
+  async update(ctx) {
     const {
       params: { ranobe, domain, chapter },
     } = ctx;
@@ -94,9 +94,9 @@ export class ChaptersRouter extends CustomBasicRouter {
 
     ctx.response.body = res;
     ctx.status = 200;
-  };
+  }
 
-  delete = async (ctx) => {
+  async delete(ctx) {
     const {
       params: { ranobe, domain, chapter },
     } = ctx;
@@ -109,5 +109,5 @@ export class ChaptersRouter extends CustomBasicRouter {
     }
 
     ctx.status = 204;
-  };
+  }
 }

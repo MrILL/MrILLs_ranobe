@@ -14,7 +14,7 @@ export class RanobeDomainsRouter extends CustomBasicRouter {
     this.router.delete('/:domain', this.delete);
   }
 
-  create = async (ctx) => {
+  async create(ctx) {
     const {
       request: {
         body: { url },
@@ -38,9 +38,9 @@ export class RanobeDomainsRouter extends CustomBasicRouter {
 
     ctx.response.body = res;
     ctx.status = 201;
-  };
+  }
 
-  get = async (ctx) => {
+  async get(ctx) {
     const {
       params: { ranobe },
     } = ctx;
@@ -55,9 +55,9 @@ export class RanobeDomainsRouter extends CustomBasicRouter {
 
     ctx.response.body = res;
     ctx.status = 200;
-  };
+  }
 
-  getOne = async (ctx) => {
+  async getOne(ctx) {
     const {
       params: { ranobe, domain },
     } = ctx;
@@ -72,9 +72,9 @@ export class RanobeDomainsRouter extends CustomBasicRouter {
 
     ctx.response.body = res;
     ctx.status = 200;
-  };
+  }
 
-  update = async (ctx) => {
+  async update(ctx) {
     const {
       params: { ranobe, domain },
     } = ctx;
@@ -89,9 +89,9 @@ export class RanobeDomainsRouter extends CustomBasicRouter {
 
     ctx.response.body = res;
     ctx.status = 200;
-  };
+  }
 
-  delete = async (ctx) => {
+  async delete(ctx) {
     const {
       params: { ranobe, domain },
     } = ctx;
@@ -104,5 +104,5 @@ export class RanobeDomainsRouter extends CustomBasicRouter {
     }
 
     ctx.status = 204;
-  };
+  }
 }

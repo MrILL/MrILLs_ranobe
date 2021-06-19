@@ -7,7 +7,7 @@ export class ChaptersService {
     this.ranobeDomainsSrvc = ranobeDomainsSrvc;
   }
 
-  create = async (ranobeId, url) => {
+  async create(ranobeId, url) {
     const domain = extractor.extractDomain(url);
     const ranobeDomain = await this.ranobeDomainsSrvc.getOne(ranobeId, domain);
     if (!ranobeDomain) {
@@ -39,9 +39,9 @@ export class ChaptersService {
     });
 
     return res;
-  };
+  }
 
-  get = async (ranobeId, domain) => {
+  async get(ranobeId, domain) {
     let ranobeDomainId;
     if (domain) {
       const checkRanobeDomain = await this.ranobeDomainsSrvc.getOne(
@@ -72,9 +72,9 @@ export class ChaptersService {
     }
 
     return res;
-  };
+  }
 
-  getOne = async (ranobeId, domain, chapterNomer) => {
+  async getOne(ranobeId, domain, chapterNomer) {
     let ranobeDomainId;
     if (domain) {
       const ranobeDomain = await this.ranobeDomainsSrvc.getOne(
@@ -104,10 +104,10 @@ export class ChaptersService {
     }
 
     return res;
-  };
+  }
 
   //TODO use getOne
-  update = async (ranobeId, domain, chapterNomer) => {
+  async update(ranobeId, domain, chapterNomer) {
     //TODO deside about checking it because of it checking inside getOne
     const chapter = await this.getOne(ranobeId, domain, chapterNomer);
 
@@ -125,9 +125,9 @@ export class ChaptersService {
     });
 
     return res;
-  };
+  }
 
-  delete = async (ranobeId, domain, chapterNomer) => {
+  async delete(ranobeId, domain, chapterNomer) {
     //TODO deside about checking it because of it checking inside getOne
     const chapter = await this.getOne(ranobeId, domain, chapterNomer);
 
@@ -135,7 +135,5 @@ export class ChaptersService {
     if (!res) {
       throw new HttpException(500, 'unable to delete record');
     }
-  };
-
-  //TODO getOneDomain(domain) return (domain)? db(domain) : db.getDefaultDomain
+  }
 }
