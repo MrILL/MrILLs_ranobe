@@ -75,6 +75,9 @@ export class RanobeDomainsService {
       domain,
       url: checkDomain.source,
     });
+    if (!res) {
+      throw new HttpException(500, 'unable to update record');
+    }
 
     return res;
   }

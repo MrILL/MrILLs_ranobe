@@ -28,9 +28,8 @@ export class ChaptersService {
       throw new HttpException(409, 'Chapter In This Domain Already Exists');
     }
 
-    const id = genBase64UID(7);
     const res = await this.chaptersRepo.create({
-      id,
+      id: genBase64UID(7),
       ranobeDomainId: ranobeDomain.id,
       title: chapter.title,
       body: chapter.body,
@@ -108,28 +107,34 @@ export class ChaptersService {
 
   //TODO use getOne
   async update(ranobeId, domain, chapterNomer) {
-    //TODO deside about checking it because of it checking inside getOne
     const chapter = await this.getOne(ranobeId, domain, chapterNomer);
+    if (!chapter) {
+      throw new HttpException(404, 'Chapter Not Found');
+    }
 
     const chapterExtracted = await extractor.extractChapter(chapter.source);
     if (!chapterExtracted || !chapterExtracted.isCorrect()) {
       throw new HttpException(406, 'Cant extract chapter');
     }
 
-    //TODO consider about checking
     const res = await this.chaptersRepo.update({
       chapterId: chapter.id,
       title: chapterExtracted.title,
       body: chapterExtracted.body,
       source: chapter.source,
     });
+    if (!res) {
+      throw new HttpException(500, 'unable to update record');
+    }
 
     return res;
   }
 
   async delete(ranobeId, domain, chapterNomer) {
-    //TODO deside about checking it because of it checking inside getOne
     const chapter = await this.getOne(ranobeId, domain, chapterNomer);
+    if (!chapter) {
+      throw new HttpException(404, 'Chapter Not Found');
+    }
 
     const res = await this.chaptersRepo.delete({ chapterId: chapter.id });
     if (!res) {
