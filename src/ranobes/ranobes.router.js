@@ -13,16 +13,16 @@ export class RanobesRouter extends CustomBasicRouter {
     this.router.delete('/:ranobe', this.delete);
   }
 
-  async create(ctx) {
+  create = async (ctx) => {
     const { title } = ctx.request.body;
 
     const res = await this.service.create(title);
 
     ctx.response.body = res;
     ctx.status = 201;
-  }
+  };
 
-  async get(ctx) {
+  get = async (ctx) => {
     let res;
     try {
       res = await this.service.get();
@@ -33,9 +33,9 @@ export class RanobesRouter extends CustomBasicRouter {
 
     ctx.response.body = res;
     ctx.status = 200;
-  }
+  };
 
-  async getOne(ctx) {
+  getOne = async (ctx) => {
     const {
       params: { ranobe },
     } = ctx;
@@ -50,9 +50,9 @@ export class RanobesRouter extends CustomBasicRouter {
 
     ctx.response.body = res;
     ctx.status = 200;
-  }
+  };
 
-  async update(ctx) {
+  update = async (ctx) => {
     const {
       request: {
         body: { title },
@@ -70,9 +70,9 @@ export class RanobesRouter extends CustomBasicRouter {
 
     ctx.response.body = res;
     ctx.status = 200;
-  }
+  };
 
-  async delete(ctx) {
+  delete = async (ctx) => {
     const {
       params: { ranobe },
     } = ctx;
@@ -85,5 +85,5 @@ export class RanobesRouter extends CustomBasicRouter {
     }
 
     ctx.status = 204;
-  }
+  };
 }
