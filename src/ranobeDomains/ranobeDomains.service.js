@@ -1,13 +1,13 @@
-import { HttpException } from '../utils';
+import { HttpException, genBase64UID } from '../utils';
 
 export class RanobeDomainsService {
-  constructor(ranobeDomainsRepo, ranobesRepo) {
+  constructor(ranobeDomainsRepo, ranobesSrvc) {
     this.ranobeDomainsRepo = ranobeDomainsRepo;
-    this.ranobesRepo = ranobesRepo;
+    this.ranobesSrvc = ranobesSrvc;
   }
 
-  create = async (ranobeId, url) => {
-    const checkRanobe = await this.ranobesRepo.getOneById({ id: ranobeId });
+  async create(ranobeId, url) {
+    const checkRanobe = await this.ranobesSrvc.getOne(ranobeId);
     if (!checkRanobe) {
       throw new HttpException(404, 'Ranobe Not Found');
     }
@@ -23,7 +23,9 @@ export class RanobeDomainsService {
 
     //TODO add info via scraping
 
+    const id = genBase64UID(7);
     const res = await this.ranobeDomainsRepo.create({
+      id,
       ranobeId,
       domain,
       url,
@@ -32,18 +34,18 @@ export class RanobeDomainsService {
     //TODO add chapters via scraping
 
     return res;
-  };
+  }
 
-  get = async (ranobeId) => {
+  async get(ranobeId) {
     const res = await this.ranobeDomainsRepo.get({ ranobeId });
-    if (!res || res.length == 0) {
+    if (!res || res.length === 0) {
       throw new HttpException(404, 'Ranobe Domains Not Found');
     }
 
     return res;
-  };
+  }
 
-  getOne = async (ranobeId, domain) => {
+  async getOne(ranobeId, domain) {
     const res = await this.ranobeDomainsRepo.getOne({
       ranobeId,
       domain,
@@ -53,11 +55,11 @@ export class RanobeDomainsService {
     }
 
     return res;
-  };
+  }
 
   //pass only object and some essential not scrapped data
   //UPD: nothing to update yet
-  update = async (ranobeId, domain) => {
+  async update(ranobeId, domain) {
     const checkDomain = await this.ranobeDomainsRepo.getOne({
       ranobeId,
       domain,
@@ -73,12 +75,14 @@ export class RanobeDomainsService {
       domain,
       url: checkDomain.source,
     });
+    if (!res) {
+      throw new HttpException(500, 'unable to update record');
+    }
 
     return res;
-  };
+  }
 
-  //TODO check how to handle delete error
-  delete = async (ranobeId, domain) => {
+  async delete(ranobeId, domain) {
     const checkDomain = await this.ranobeDomainsRepo.getOne({
       ranobeId,
       domain,
@@ -87,10 +91,12 @@ export class RanobeDomainsService {
       throw new HttpException(404, 'Ranobe With This Domain Not Found');
     }
 
-    await this.ranobeDomainsRepo.delete({
+    const res = await this.ranobeDomainsRepo.delete({
       ranobeId,
       domain,
     });
-    return true;
-  };
+    if (!res) {
+      throw new HttpException(500, 'unable to delete record');
+    }
+  }
 }

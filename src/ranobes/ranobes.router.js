@@ -1,24 +1,33 @@
-import Router from 'koa-router';
-import { CustomBasicRouter } from '../utils';
+import { CustomBasicRouter, errorHandler } from '../utils';
 
 export class RanobesRouter extends CustomBasicRouter {
   constructor(ranobesService) {
+    super('/ranobes');
     this.service = ranobesService;
-    this.router = new Router({ prefix: '/ranobes' });
 
-    this.router.get('/', this.get);
     this.router.post('/', this.create);
+    this.router.get('/', this.get);
 
+    this.router.get('/:ranobe', this.getOne);
     this.router.put('/:ranobe', this.update);
     this.router.delete('/:ranobe', this.delete);
   }
+
+  create = async (ctx) => {
+    const { title } = ctx.request.body;
+
+    const res = await this.service.create(title);
+
+    ctx.response.body = res;
+    ctx.status = 201;
+  };
 
   get = async (ctx) => {
     let res;
     try {
       res = await this.service.get();
     } catch (e) {
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 
@@ -26,13 +35,21 @@ export class RanobesRouter extends CustomBasicRouter {
     ctx.status = 200;
   };
 
-  create = async (ctx) => {
-    const { title } = ctx.request.body;
+  getOne = async (ctx) => {
+    const {
+      params: { ranobe },
+    } = ctx;
 
-    const res = await this.service.add(title);
+    let res;
+    try {
+      res = await this.service.getOne(ranobe);
+    } catch (e) {
+      errorHandler(e, ctx);
+      return;
+    }
 
     ctx.response.body = res;
-    ctx.status = 201;
+    ctx.status = 200;
   };
 
   update = async (ctx) => {
@@ -47,7 +64,7 @@ export class RanobesRouter extends CustomBasicRouter {
     try {
       res = await this.service.update(ranobe, title);
     } catch (e) {
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 
@@ -63,7 +80,7 @@ export class RanobesRouter extends CustomBasicRouter {
     try {
       await this.service.delete(ranobe);
     } catch (e) {
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 

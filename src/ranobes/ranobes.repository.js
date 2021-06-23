@@ -3,9 +3,10 @@ export class RanobesRepo {
     this.db = db;
   }
 
-  async create({ title }) {
-    const insertQuery = 'INSERT INTO ranobes (title) VALUES ($1) RETURNING *';
-    const values = [title];
+  async create({ id, title }) {
+    const insertQuery =
+      'INSERT INTO ranobes (id, title) VALUES ($1, $2) RETURNING id';
+    const values = [id, title];
     const { rows } = await this.db.query(insertQuery, values);
 
     return rows[0];
@@ -19,7 +20,7 @@ export class RanobesRepo {
     return rows;
   }
 
-  async getOneById({ id }) {
+  async getOne({ id }) {
     const selectQuery = 'SELECT * FROM ranobes WHERE id=$1';
     const values = [id];
     const { rows } = await this.db.query(selectQuery, values);
@@ -38,9 +39,9 @@ export class RanobesRepo {
   async delete({ ranobeId }) {
     const deleteQuery = 'DELETE FROM ranobes WHERE id=$1';
     const values = [ranobeId];
-    await this.db.query(deleteQuery, values);
+    const { rowCount } = await this.db.query(deleteQuery, values);
 
-    return true;
+    return rowCount === 1;
   }
 }
 

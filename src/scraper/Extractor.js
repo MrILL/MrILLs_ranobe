@@ -16,6 +16,10 @@ class Extractor {
     this.registered[hostname] = scraper;
   }
 
+  extractDomain(url) {
+    return new URL(url).hostname;
+  }
+
   extractInfo(url) {
     const hostname = new URL(url).hostname;
     const scraper = this.registered[hostname];

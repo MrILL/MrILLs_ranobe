@@ -1,29 +1,26 @@
-import Router from 'koa-router';
 import validator from 'validator';
-import { CustomBasicRouter } from '../utils';
+import { CustomBasicRouter, errorHandler } from '../utils';
 
 export class ChaptersRouter extends CustomBasicRouter {
   constructor(chaptersService) {
+    super('/ranobes/:ranobe');
     this.service = chaptersService;
 
-    this.router = new Router({
-      prefix: '/ranobes/:ranobe/domains/:domain/chapters',
-    });
+    this.router.post('/chapters', this.create);
+    this.router.get('/chapters', this.get);
 
-    this.router.post('/', this.create);
-    this.router.get('/', this.get);
-
-    this.router.get('/:chapter', this.getOne);
-    this.router.put('/:chapter', this.update); //no use of this right now
-    this.router.delete('/:chapter', this.delete);
+    const onesPostfix = '/:domain/chapters/:chapter';
+    this.router.get(onesPostfix, this.getOne);
+    this.router.put(onesPostfix, this.update); //no use of this right now
+    this.router.delete(onesPostfix, this.delete);
   }
 
   create = async (ctx) => {
     const {
+      params: { ranobe },
       request: {
         body: { url },
       },
-      params: { ranobe, domain },
     } = ctx;
 
     const validation = validator.isURL(url);
@@ -34,9 +31,10 @@ export class ChaptersRouter extends CustomBasicRouter {
 
     let res;
     try {
-      res = await this.service.create(ranobe, domain, url);
+      res = await this.service.create(ranobe, url);
     } catch (e) {
-      e.throw(ctx);
+      //TODO intercept err into http exception
+      errorHandler(e, ctx);
       return;
     }
 
@@ -46,14 +44,17 @@ export class ChaptersRouter extends CustomBasicRouter {
 
   get = async (ctx) => {
     const {
-      params: { ranobe, domain },
+      params: { ranobe },
+      request: {
+        query: { domain },
+      },
     } = ctx;
 
     let res;
     try {
       res = await this.service.get(ranobe, domain);
     } catch (e) {
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 
@@ -70,7 +71,7 @@ export class ChaptersRouter extends CustomBasicRouter {
     try {
       res = await this.service.getOne(ranobe, domain, chapter);
     } catch (e) {
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 
@@ -87,7 +88,7 @@ export class ChaptersRouter extends CustomBasicRouter {
     try {
       res = await this.service.update(ranobe, domain, chapter);
     } catch (e) {
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 
@@ -103,7 +104,7 @@ export class ChaptersRouter extends CustomBasicRouter {
     try {
       await this.service.delete(ranobe, domain, chapter);
     } catch (e) {
-      e.throw(ctx);
+      errorHandler(e, ctx);
       return;
     }
 

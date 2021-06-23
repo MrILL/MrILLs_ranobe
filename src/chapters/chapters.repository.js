@@ -3,12 +3,13 @@ export class ChaptersRepo {
     this.db = db;
   }
 
-  async create({ ranobeDomainId, title, body, nomer, source }) {
+  async create({ id, ranobeDomainId, title, body, nomer, source }) {
     const insertQuery =
-      'INSERT INTO chapters (ranobeDomainId, title, body, nomer, source) \
-      VALUES ($1, $2, $3, $4, $5) RETURNING *';
-    const values = [ranobeDomainId, title, body, nomer, source];
+      'INSERT INTO chapters (id, ranobeDomainId, title, body, nomer, source) \
+      VALUES ($1, $2, $3, $4, $5, $6) RETURNING nomer';
+    const values = [id, ranobeDomainId, title, body, nomer, source];
     const { rows } = await this.db.query(insertQuery, values);
+
     return rows[0];
   }
 
@@ -17,6 +18,7 @@ export class ChaptersRepo {
     const selectQuery = 'SELECT * FROM chapters WHERE ranobeDomainId=$1';
     const values = [ranobeDomainId];
     const { rows } = await this.db.query(selectQuery, values);
+
     return rows;
   }
 
@@ -25,6 +27,7 @@ export class ChaptersRepo {
       'SELECT * FROM chapters WHERE ranobeDomainId=$1 AND nomer=$2';
     const values = [ranobeDomainId, nomer];
     const { rows } = await this.db.query(selectQuery, values);
+
     return rows[0];
   }
 
@@ -35,12 +38,15 @@ export class ChaptersRepo {
       WHERE id=$1 RETURNING *';
     const values = [chapterId, title, body, source];
     const { rows } = await this.db.query(updateQuery, values);
+
     return rows[0];
   }
 
   async delete({ chapterId }) {
     const deleteQuery = 'DELETE FROM chapters WHERE id=$1';
     const values = [chapterId];
-    await this.db.query(deleteQuery, values);
+    const { rowCount } = await this.db.query(deleteQuery, values);
+
+    return rowCount === 1;
   }
 }
