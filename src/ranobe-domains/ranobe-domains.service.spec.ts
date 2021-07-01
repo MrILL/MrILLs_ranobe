@@ -1,4 +1,8 @@
+import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
+import { DbModule } from 'src/db';
+import { RanobesModule } from 'src/ranobes';
+import { RanobeDomainsRepository } from './ranobe-domains.repository';
 import { RanobeDomainsService } from './ranobe-domains.service';
 
 describe('RanobeDomainsService', () => {
@@ -6,7 +10,14 @@ describe('RanobeDomainsService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [RanobeDomainsService],
+      imports: [
+        ConfigModule.forRoot(),
+        DbModule.forRoot({
+          initScriptPath: process.cwd() + '\\db_scripts\\init.sql',
+        }),
+        RanobesModule,
+      ],
+      providers: [RanobeDomainsService, RanobeDomainsRepository],
     }).compile();
 
     service = module.get<RanobeDomainsService>(RanobeDomainsService);
