@@ -9,9 +9,8 @@ import { Ranobe } from './entities';
 export class RanobesService {
   constructor(private readonly ranobesRepository: RanobesRepository) {}
 
-  async create(createRanobeDto: CreateRanobeDto): Promise<Ranobe> {
+  async create(createRanobeDto: CreateRanobeDto): Promise<Partial<Ranobe>> {
     const id = genBase64UID(7);
-    const { title } = createRanobeDto;
 
     return await this.ranobesRepository.create(id, createRanobeDto);
   }

@@ -7,7 +7,10 @@ import { CreateRanobeDto, UpdateRanobeDto } from './dto';
 export class RanobesRepository {
   constructor(private readonly db: DbService) {}
 
-  async create(id: string, { title }: CreateRanobeDto): Promise<Ranobe> {
+  async create(
+    id: string,
+    { title }: CreateRanobeDto,
+  ): Promise<Partial<Ranobe>> {
     const insertQuery =
       'INSERT INTO ranobes (id, title) VALUES ($1, $2) RETURNING id';
     const values = [id, title];

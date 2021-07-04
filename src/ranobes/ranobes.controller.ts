@@ -19,7 +19,9 @@ export class RanobesController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createRanobeDto: CreateRanobeDto): Promise<Ranobe> {
+  async create(
+    @Body() createRanobeDto: CreateRanobeDto,
+  ): Promise<Partial<Ranobe>> {
     return this.ranobesService.create(createRanobeDto);
   }
 
