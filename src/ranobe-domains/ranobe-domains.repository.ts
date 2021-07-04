@@ -12,7 +12,7 @@ export class RanobeDomainsRepository {
     ranobeId: string,
     domain: string,
     { url }: CreateRanobeDomainDto,
-  ): Promise<RanobeDomain> {
+  ): Promise<Partial<RanobeDomain>> {
     const insertQuery =
       'INSERT INTO ranobeDomains (id, ranobeId, domain, source) \
       VALUES ($1, $2, $3, $4) RETURNING domain';

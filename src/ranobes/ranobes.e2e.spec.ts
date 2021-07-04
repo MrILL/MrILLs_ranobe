@@ -2,16 +2,16 @@ import * as request from 'supertest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '@nestjs/config';
 import { DbModule } from 'src/db';
-import { Ranobe } from './entities';
 import { INestApplication } from '@nestjs/common';
 import { RanobesModule } from './ranobes.module';
+import { CreateRanobeDto, UpdateRanobeDto } from './dto';
 
 import { isBase64UID } from 'src/utils';
 
-const entity: Partial<Ranobe> = {
+const createRanobeDto: CreateRanobeDto = {
   title: 'Ranobe Test1',
 };
-const changedEntity: Partial<Ranobe> = {
+const updateRanobeDto: UpdateRanobeDto = {
   title: 'Changed Ranobe Test1',
 };
 
@@ -48,11 +48,11 @@ describe('Ranobes', () => {
     it('POST /ranobes', () =>
       req(app)
         .post(route)
-        .send(entity)
+        .send(createRanobeDto)
         .expect(201)
         .expect((res) => {
           id = res.body.id;
-          fullEntity = { id, ...entity };
+          fullEntity = { id, ...createRanobeDto };
           expect(isBase64UID(id)).toBeTruthy();
         }));
 
@@ -71,9 +71,9 @@ describe('Ranobes', () => {
     it('PUT /ranobes/:ranobe', () =>
       req(app)
         .put(urlParamId(id))
-        .send(changedEntity)
+        .send(updateRanobeDto)
         .expect(200)
-        .expect({ id, ...changedEntity }));
+        .expect({ id, ...updateRanobeDto }));
 
     it('DELETE /ranobes/:ranobe', () =>
       req(app).delete(urlParamId(id)).expect(204));
@@ -86,7 +86,7 @@ describe('Ranobes', () => {
       beforeAll(async () => {
         await req(app)
           .post(route)
-          .send(entity)
+          .send(createRanobeDto)
           .expect((res) => {
             deletedId = res.body.id;
           });

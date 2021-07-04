@@ -22,7 +22,7 @@ export class RanobeDomainsController {
   async create(
     @Param('ranobe') ranobeId: string,
     @Body() createRanobeDomainDto: CreateRanobeDomainDto,
-  ): Promise<RanobeDomain> {
+  ): Promise<Partial<RanobeDomain>> {
     return this.ranobeDomainsService.create(ranobeId, createRanobeDomainDto);
   }
 

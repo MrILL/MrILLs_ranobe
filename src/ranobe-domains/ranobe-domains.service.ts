@@ -16,7 +16,7 @@ export class RanobeDomainsService {
   async create(
     ranobeId: string,
     createRanobeDomainDto: CreateRanobeDomainDto,
-  ): Promise<RanobeDomain> {
+  ): Promise<Partial<RanobeDomain>> {
     const ranobe = await this.ranobesService.findOne(ranobeId);
     if (!ranobe) {
       throw RanobeDomainsHttpException.RanobeNotFound();
