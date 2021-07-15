@@ -12,8 +12,7 @@ export async function getFromStaticSrc(src: string, resp) {
 
 export async function cheerioCleanClass(data) {
   if (!data) {
-    console.error('no data provided');
-    return;
+    throw 'no data provided';
   }
   data.attribs = Object.create(null);
 }
