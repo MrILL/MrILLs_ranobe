@@ -9,7 +9,7 @@ import { CreateRanobeDto, UpdateRanobeDto } from './dto';
 import { isBase64UID } from 'src/utils';
 
 const createRanobeDto: CreateRanobeDto = {
-  title: 'Ranobe Test1',
+  title: 'RanobeDomains Test1',
 };
 const updateRanobeDto: UpdateRanobeDto = {
   title: 'Changed Ranobe Test1',
