@@ -18,7 +18,7 @@ export class ChaptersService {
   async create(
     ranobeId: string,
     createChapterDto: CreateChapterDto,
-  ): Promise<Chapter> {
+  ): Promise<Partial<Chapter>> {
     const domain = this.scraperService.extractDomain(createChapterDto.source);
     const ranobeDomain = await this.ranobeDomainsService.findOne(
       ranobeId,

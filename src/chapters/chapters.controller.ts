@@ -23,7 +23,7 @@ export class ChaptersController {
   create(
     @Param('ranobe') ranobeId: string,
     @Body() createChapterDto: CreateChapterDto,
-  ): Promise<Chapter> {
+  ): Promise<Partial<Chapter>> {
     return this.chaptersService.create(ranobeId, createChapterDto);
   }
 

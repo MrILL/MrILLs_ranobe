@@ -10,7 +10,7 @@ export class ChaptersRepository {
     id: string,
     ranobeDomainId: string,
     { source, title, body, nomer }: Chapter,
-  ): Promise<Chapter> {
+  ): Promise<Partial<Chapter>> {
     const insertQuery =
       'INSERT INTO chapters (id, ranobeDomainId, title, body, nomer, source) \
       VALUES ($1, $2, $3, $4, $5, $6) RETURNING nomer';

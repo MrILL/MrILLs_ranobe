@@ -29,6 +29,7 @@
     "cheerio": "^1.0.0-rc.10",
     "pg": "^8.6.0",
     "reflect-metadata": "^0.1.13",
+    "request": "^2.88.2",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.6"
   },
