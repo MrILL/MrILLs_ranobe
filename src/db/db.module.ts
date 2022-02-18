@@ -1,7 +1,13 @@
-import { Module, DynamicModule, Global } from '@nestjs/common';
-import { DbService } from './db.service';
-import { DB_CONFIG_OPTIONS } from './constants';
-import { DbConfigOptions } from './interfaces/db-config-options.interface';
+import { Module, DynamicModule, Global, ModuleMetadata } from '@nestjs/common'
+import { DbService } from './db.service'
+import { DB_CONFIG_OPTIONS } from './constants'
+import { DbConfigOptions } from './interfaces/db-config-options.interface'
+
+export interface DbModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
+  name?: string
+  useFactory?: (...args: any[]) => Promise<any> | any
+  inject?: any[]
+}
 
 @Global()
 @Module({})
@@ -17,6 +23,18 @@ export class DbModule {
         DbService,
       ],
       exports: [DbService],
-    };
+    }
+  }
+
+  static forRootAsync(options): DynamicModule {
+    return {
+      module: DbModule,
+      providers: [
+        {
+          provide: DB_CONFIG_OPTIONS,
+          useValue: options,
+        },
+      ],
+    }
   }
 }

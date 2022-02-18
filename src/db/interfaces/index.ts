@@ -1,1 +1,1 @@
-export { DbConfigOptions } from './db-config-options.interface';
+export { DbConfigOptions } from './db-config-options.interface'

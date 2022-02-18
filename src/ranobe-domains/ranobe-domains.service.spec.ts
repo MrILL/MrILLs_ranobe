@@ -1,12 +1,12 @@
-import { ConfigModule } from '@nestjs/config';
-import { Test, TestingModule } from '@nestjs/testing';
-import { DbModule } from 'src/db';
-import { RanobesModule } from 'src/ranobes';
-import { RanobeDomainsRepository } from './ranobe-domains.repository';
-import { RanobeDomainsService } from './ranobe-domains.service';
+import { ConfigModule } from '@nestjs/config'
+import { Test, TestingModule } from '@nestjs/testing'
+import { DbModule } from 'src/db'
+import { RanobesModule } from 'src/ranobes'
+import { RanobeDomainsRepository } from './ranobe-domains.repository'
+import { RanobeDomainsService } from './ranobe-domains.service'
 
 describe('RanobeDomainsService', () => {
-  let service: RanobeDomainsService;
+  let service: RanobeDomainsService
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -18,12 +18,12 @@ describe('RanobeDomainsService', () => {
         RanobesModule,
       ],
       providers: [RanobeDomainsService, RanobeDomainsRepository],
-    }).compile();
+    }).compile()
 
-    service = module.get<RanobeDomainsService>(RanobeDomainsService);
-  });
+    service = module.get<RanobeDomainsService>(RanobeDomainsService)
+  })
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-});
+    expect(service).toBeDefined()
+  })
+})

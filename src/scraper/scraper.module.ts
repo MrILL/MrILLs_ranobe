@@ -1,7 +1,7 @@
-import { Module, DynamicModule, Global } from '@nestjs/common';
-import { ScraperService } from './scraper.service';
-import { RanobesScraper } from './domains';
-import { SCRAPER_DOMAINS_OPTION, SCRAPERS_OPTIONS } from './constants';
+import { Module, DynamicModule, Global } from '@nestjs/common'
+import { ScraperService } from './scraper.service'
+import { RanobesScraper } from './domains'
+import { SCRAPER_DOMAINS_OPTION, SCRAPERS_OPTIONS } from './constants'
 
 @Global()
 @Module({})
@@ -11,9 +11,9 @@ export class ScraperModule {
       cloudflareScraper: {
         url: 'http://localhost:5000',
       },
-    };
+    }
 
-    const defaultScrapers = [new RanobesScraper()];
+    const defaultScrapers = [new RanobesScraper()]
 
     return {
       module: ScraperModule,
@@ -29,6 +29,6 @@ export class ScraperModule {
         ScraperService,
       ],
       exports: [ScraperService],
-    };
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common'
 
 export class ScraperHttpException extends HttpException {
   constructor(statusCode, message) {
@@ -7,14 +7,14 @@ export class ScraperHttpException extends HttpException {
         success: false,
         error: message,
       },
-      statusCode,
-    );
+      statusCode
+    )
   }
 
   static NotAcceptableDomain() {
     return new ScraperHttpException(
       HttpStatus.NOT_ACCEPTABLE,
-      'Cant extract chapter',
-    );
+      'Cant extract chapter'
+    )
   }
 }

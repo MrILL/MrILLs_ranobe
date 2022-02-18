@@ -1,26 +1,26 @@
-import * as request from 'supertest';
-import { Test, TestingModule } from '@nestjs/testing';
-import { ConfigModule } from '@nestjs/config';
-import { DbModule } from 'src/db';
-import { INestApplication } from '@nestjs/common';
-import { RanobesModule } from './ranobes.module';
-import { CreateRanobeDto, UpdateRanobeDto } from './dto';
+import * as request from 'supertest'
+import { Test, TestingModule } from '@nestjs/testing'
+import { ConfigModule } from '@nestjs/config'
+import { DbModule } from 'src/db'
+import { INestApplication } from '@nestjs/common'
+import { RanobesModule } from './ranobes.module'
+import { CreateRanobeDto, UpdateRanobeDto } from './dto'
 
-import { isBase64UID } from 'src/utils';
+import { isBase64UID } from 'src/utils'
 
 const createRanobeDto: CreateRanobeDto = {
   title: 'RanobeDomains Test1',
-};
+}
 const updateRanobeDto: UpdateRanobeDto = {
   title: 'Changed Ranobe Test1',
-};
+}
 
-const req = (app) => request(app.getHttpServer());
-const route = '/ranobes';
-const urlParamId = (id) => route + '/' + id;
+const req = (app) => request(app.getHttpServer())
+const route = '/ranobes'
+const urlParamId = (id) => route + '/' + id
 
 describe('Ranobes', () => {
-  let app: INestApplication;
+  let app: INestApplication
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -31,19 +31,19 @@ describe('Ranobes', () => {
         }),
         RanobesModule,
       ],
-    }).compile();
+    }).compile()
 
-    app = module.createNestApplication();
-    await app.init();
-  });
+    app = module.createNestApplication()
+    await app.init()
+  })
 
   afterAll(async () => {
-    app.close();
-  });
+    app.close()
+  })
 
   describe('full circle of CRUD without errors', () => {
-    let id: string;
-    let fullEntity;
+    let id: string
+    let fullEntity
 
     it('POST /ranobes', () =>
       req(app)
@@ -51,56 +51,56 @@ describe('Ranobes', () => {
         .send(createRanobeDto)
         .expect(201)
         .expect((res) => {
-          id = res.body.id;
-          fullEntity = { id, ...createRanobeDto };
-          expect(isBase64UID(id)).toBeTruthy();
-        }));
+          id = res.body.id
+          fullEntity = { id, ...createRanobeDto }
+          expect(isBase64UID(id)).toBeTruthy()
+        }))
 
     it('GET /ranobes', () =>
       req(app)
         .get(route)
         .expect(200)
         .expect((res) => {
-          const createdObj = res.body.find((v) => v.id == id);
-          expect(createdObj).toStrictEqual(fullEntity);
-        }));
+          const createdObj = res.body.find((v) => v.id == id)
+          expect(createdObj).toStrictEqual(fullEntity)
+        }))
 
     it('GET /ranobes/:ranobe', () =>
-      req(app).get(urlParamId(id)).expect(200).expect(fullEntity));
+      req(app).get(urlParamId(id)).expect(200).expect(fullEntity))
 
     it('PUT /ranobes/:ranobe', () =>
       req(app)
         .put(urlParamId(id))
         .send(updateRanobeDto)
         .expect(200)
-        .expect({ id, ...updateRanobeDto }));
+        .expect({ id, ...updateRanobeDto }))
 
     it('DELETE /ranobes/:ranobe', () =>
-      req(app).delete(urlParamId(id)).expect(204));
-  });
+      req(app).delete(urlParamId(id)).expect(204))
+  })
 
   describe('full bunch of errors', () => {
     describe('not found', () => {
-      let deletedId;
+      let deletedId
 
       beforeAll(async () => {
         await req(app)
           .post(route)
           .send(createRanobeDto)
           .expect((res) => {
-            deletedId = res.body.id;
-          });
-        await req(app).delete(urlParamId(deletedId));
-      });
+            deletedId = res.body.id
+          })
+        await req(app).delete(urlParamId(deletedId))
+      })
 
       it('GET /ranobes/:ranobe', () =>
-        req(app).get(urlParamId(deletedId)).expect(404));
+        req(app).get(urlParamId(deletedId)).expect(404))
 
       it('PUT /ranobes/:ranobe', () =>
-        req(app).put(urlParamId(deletedId)).expect(404));
+        req(app).put(urlParamId(deletedId)).expect(404))
 
       it('DELETE /ranobes/:ranobe', () =>
-        req(app).delete(urlParamId(deletedId)).expect(404));
-    });
-  });
-});
+        req(app).delete(urlParamId(deletedId)).expect(404))
+    })
+  })
+})

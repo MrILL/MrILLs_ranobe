@@ -1,3 +1,3 @@
 export class CreateRanobeDomainDto {
-  url: string;
+  url: string
 }

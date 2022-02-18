@@ -1,3 +1,3 @@
 export class CreateChapterDto {
-  source: string;
+  source: string
 }

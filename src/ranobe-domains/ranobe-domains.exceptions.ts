@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common'
 
 export class RanobeDomainsHttpException extends HttpException {
   constructor(statusCode, message) {
@@ -7,35 +7,35 @@ export class RanobeDomainsHttpException extends HttpException {
         success: false,
         error: message,
       },
-      statusCode,
-    );
+      statusCode
+    )
   }
 
   static RanobeNotFound() {
     return new RanobeDomainsHttpException(
       HttpStatus.NOT_FOUND,
-      'Ranobes Not Found',
-    );
+      'Ranobes Not Found'
+    )
   }
 
   static NotFound() {
     return new RanobeDomainsHttpException(
       HttpStatus.NOT_FOUND,
-      'Ranobe With This Domain Not Found',
-    );
+      'Ranobe With This Domain Not Found'
+    )
   }
 
   static Conflict() {
     return new RanobeDomainsHttpException(
       HttpStatus.CONFLICT,
-      'Ranobe With This Domain Already Exists',
-    );
+      'Ranobe With This Domain Already Exists'
+    )
   }
 
   static InternalServerError(message) {
     return new RanobeDomainsHttpException(
       HttpStatus.INTERNAL_SERVER_ERROR,
-      message,
-    );
+      message
+    )
   }
 }

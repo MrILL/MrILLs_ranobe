@@ -1,15 +1,15 @@
-import { ConfigModule } from '@nestjs/config';
-import { Test, TestingModule } from '@nestjs/testing';
-import { DbModule } from 'src/db';
-import { RanobeDomainsModule } from 'src/ranobe-domains';
-import { ScraperModule } from 'src/scraper';
-import { ChaptersController } from './chapters.controller';
-import { ChaptersRepository } from './chapters.repository';
-import { ChaptersService } from './chapters.service';
+import { ConfigModule } from '@nestjs/config'
+import { Test, TestingModule } from '@nestjs/testing'
+import { DbModule } from 'src/db'
+import { RanobeDomainsModule } from 'src/ranobe-domains'
+import { ScraperModule } from 'src/scraper'
+import { ChaptersController } from './chapters.controller'
+import { ChaptersRepository } from './chapters.repository'
+import { ChaptersService } from './chapters.service'
 
 describe('ChaptersController', () => {
-  let controller: ChaptersController;
-  let service: ChaptersService;
+  let controller: ChaptersController
+  let service: ChaptersService
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -23,14 +23,14 @@ describe('ChaptersController', () => {
       ],
       controllers: [ChaptersController],
       providers: [ChaptersService, ChaptersRepository],
-    }).compile();
+    }).compile()
 
-    controller = module.get<ChaptersController>(ChaptersController);
-    service = module.get<ChaptersService>(ChaptersService);
-  });
+    controller = module.get<ChaptersController>(ChaptersController)
+    service = module.get<ChaptersService>(ChaptersService)
+  })
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
-    expect(service).toBeDefined();
-  });
-});
+    expect(controller).toBeDefined()
+    expect(service).toBeDefined()
+  })
+})

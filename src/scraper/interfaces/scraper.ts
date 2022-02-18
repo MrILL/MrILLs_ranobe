@@ -1,13 +1,13 @@
-import { RanobeDomainData, Chapter } from '../entities';
+import { RanobeDomainData, Chapter } from '../entities'
 
 export interface Scraper {
-  setOptions(any): void;
+  setOptions(any): void
 
-  extractDomainInfo(string): Promise<RanobeDomainData>;
-  extractDomainInfoRule?(string): RanobeDomainData;
+  extractDomainInfo(string): Promise<RanobeDomainData>
+  extractDomainInfoRule?(string): RanobeDomainData
 
-  extractChapter(string): Promise<Chapter>;
-  extractChapterRule?(string): Chapter;
+  extractChapter(string): Promise<Chapter>
+  extractChapterRule?(string): Chapter
 
-  getHostname(): string;
+  getHostname(): string
 }

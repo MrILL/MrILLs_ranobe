@@ -1,6 +1,6 @@
 export class RanobeDomain {
-  id: string;
-  ranobeId: string;
-  domain: string;
-  source: string;
+  id: string
+  ranobeId: string
+  domain: string
+  source: string
 }

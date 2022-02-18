@@ -1,1 +1,1 @@
-export { Ranobe } from './ranobe.entity';
+export { Ranobe } from './ranobe.entity'

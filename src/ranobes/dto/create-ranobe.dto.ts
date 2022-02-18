@@ -1,3 +1,3 @@
 export class CreateRanobeDto {
-  title: string;
+  title: string
 }

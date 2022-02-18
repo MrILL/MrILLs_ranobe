@@ -1,8 +1,8 @@
 export class Chapter {
-  id: string;
-  ranobeDomainId: string;
-  nomer: number;
-  source: string;
-  title: string;
-  body: string;
+  id: string
+  ranobeDomainId: string
+  nomer: number
+  source: string
+  title: string
+  body: string
 }

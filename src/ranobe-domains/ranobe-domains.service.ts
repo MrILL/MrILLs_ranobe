@@ -1,34 +1,34 @@
-import { Injectable } from '@nestjs/common';
-import { RanobeDomainsRepository } from './ranobe-domains.repository';
-import { RanobesService } from 'src/ranobes';
-import { genBase64UID } from 'src/utils';
-import { RanobeDomainsHttpException } from './ranobe-domains.exceptions';
-import { RanobeDomain } from './entities';
-import { CreateRanobeDomainDto, UpdateRanobeDomainDto } from './dto';
+import { Injectable } from '@nestjs/common'
+import { RanobeDomainsRepository } from './ranobe-domains.repository'
+import { RanobesService } from 'src/ranobes'
+import { genBase64UID } from 'src/utils'
+import { RanobeDomainsHttpException } from './ranobe-domains.exceptions'
+import { RanobeDomain } from './entities'
+import { CreateRanobeDomainDto, UpdateRanobeDomainDto } from './dto'
 
 @Injectable()
 export class RanobeDomainsService {
   constructor(
     private readonly ranobeDomainsRepository: RanobeDomainsRepository,
-    private readonly ranobesService: RanobesService,
+    private readonly ranobesService: RanobesService
   ) {}
 
   async create(
     ranobeId: string,
-    createRanobeDomainDto: CreateRanobeDomainDto,
+    createRanobeDomainDto: CreateRanobeDomainDto
   ): Promise<Partial<RanobeDomain>> {
-    const ranobe = await this.ranobesService.findOne(ranobeId);
+    const ranobe = await this.ranobesService.findOne(ranobeId)
     if (!ranobe) {
-      throw RanobeDomainsHttpException.RanobeNotFound();
+      throw RanobeDomainsHttpException.RanobeNotFound()
     }
 
-    const domain = new URL(createRanobeDomainDto.url).hostname;
+    const domain = new URL(createRanobeDomainDto.url).hostname
     const checkDomain = await this.ranobeDomainsRepository.findOne(
       ranobeId,
-      domain,
-    );
+      domain
+    )
     if (checkDomain) {
-      throw RanobeDomainsHttpException.Conflict();
+      throw RanobeDomainsHttpException.Conflict()
     }
 
     //TODO add info via scraping
@@ -37,48 +37,48 @@ export class RanobeDomainsService {
       genBase64UID(7),
       ranobeId,
       domain,
-      createRanobeDomainDto,
-    );
+      createRanobeDomainDto
+    )
     if (!res) {
       throw RanobeDomainsHttpException.InternalServerError(
-        'unable to create record',
-      );
+        'unable to create record'
+      )
     }
 
     //TODO add chapters via scraping
 
-    return res;
+    return res
   }
 
   async findAll(ranobeId: string): Promise<RanobeDomain[]> {
-    const res = await this.ranobeDomainsRepository.findAll(ranobeId);
+    const res = await this.ranobeDomainsRepository.findAll(ranobeId)
     if (!res || res.length === 0) {
-      throw RanobeDomainsHttpException.NotFound();
+      throw RanobeDomainsHttpException.NotFound()
     }
 
-    return res;
+    return res
   }
 
   async findOne(ranobeId: string, domain: string): Promise<RanobeDomain> {
-    const res = await this.ranobeDomainsRepository.findOne(ranobeId, domain);
+    const res = await this.ranobeDomainsRepository.findOne(ranobeId, domain)
     if (!res) {
-      throw RanobeDomainsHttpException.NotFound();
+      throw RanobeDomainsHttpException.NotFound()
     }
 
-    return res;
+    return res
   }
 
   async update(
     ranobeId: string,
     domain: string,
-    updateRanobeDomainDto: UpdateRanobeDomainDto,
+    updateRanobeDomainDto: UpdateRanobeDomainDto
   ): Promise<RanobeDomain> {
     const checkDomain = await this.ranobeDomainsRepository.findOne(
       ranobeId,
-      domain,
-    );
+      domain
+    )
     if (!checkDomain) {
-      throw RanobeDomainsHttpException.NotFound();
+      throw RanobeDomainsHttpException.NotFound()
     }
 
     //TODO update info via scraping using source from checkDomain obj
@@ -86,31 +86,31 @@ export class RanobeDomainsService {
     const res = await this.ranobeDomainsRepository.update(
       ranobeId,
       domain,
-      updateRanobeDomainDto,
-    );
+      updateRanobeDomainDto
+    )
     if (!res) {
       throw RanobeDomainsHttpException.InternalServerError(
-        'unable to update record',
-      );
+        'unable to update record'
+      )
     }
 
-    return res;
+    return res
   }
 
   async remove(ranobeId: string, domain: string): Promise<void> {
     const checkDomain = await this.ranobeDomainsRepository.findOne(
       ranobeId,
-      domain,
-    );
+      domain
+    )
     if (!checkDomain) {
-      throw RanobeDomainsHttpException.NotFound();
+      throw RanobeDomainsHttpException.NotFound()
     }
 
-    const res = await this.ranobeDomainsRepository.remove(ranobeId, domain);
+    const res = await this.ranobeDomainsRepository.remove(ranobeId, domain)
     if (!res) {
       throw RanobeDomainsHttpException.InternalServerError(
-        'unable to delete record',
-      );
+        'unable to delete record'
+      )
     }
   }
 }

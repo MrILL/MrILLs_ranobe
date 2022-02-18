@@ -1,1 +1,1 @@
-export { Chapter } from './chapter.entity';
+export { Chapter } from './chapter.entity'

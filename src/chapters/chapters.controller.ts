@@ -9,10 +9,10 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
-} from '@nestjs/common';
-import { ChaptersService } from './chapters.service';
-import { CreateChapterDto, UpdateChapterDto } from './dto';
-import { Chapter } from './entities';
+} from '@nestjs/common'
+import { ChaptersService } from './chapters.service'
+import { CreateChapterDto, UpdateChapterDto } from './dto'
+import { Chapter } from './entities'
 
 @Controller('ranobes/:ranobe')
 export class ChaptersController {
@@ -22,18 +22,18 @@ export class ChaptersController {
   @HttpCode(HttpStatus.CREATED)
   create(
     @Param('ranobe') ranobeId: string,
-    @Body() createChapterDto: CreateChapterDto,
+    @Body() createChapterDto: CreateChapterDto
   ): Promise<Partial<Chapter>> {
-    return this.chaptersService.create(ranobeId, createChapterDto);
+    return this.chaptersService.create(ranobeId, createChapterDto)
   }
 
   @Get('chapters')
   @HttpCode(HttpStatus.OK)
   findAll(
     @Param('ranobe') ranobeId: string,
-    @Query('domain') domain: string,
+    @Query('domain') domain: string
   ): Promise<Chapter[]> {
-    return this.chaptersService.findAll(ranobeId, domain);
+    return this.chaptersService.findAll(ranobeId, domain)
   }
 
   @Get(':domain/chapters/:chapter')
@@ -41,9 +41,9 @@ export class ChaptersController {
   findOne(
     @Param('ranobe') ranobeId: string,
     @Param('domain') domain: string,
-    @Param('chapter') nomer: number,
+    @Param('chapter') nomer: number
   ): Promise<Chapter> {
-    return this.chaptersService.findOne(ranobeId, domain, nomer);
+    return this.chaptersService.findOne(ranobeId, domain, nomer)
   }
 
   // @Put(':domain/chapters/:chapter')
@@ -61,8 +61,8 @@ export class ChaptersController {
   remove(
     @Param('ranobe') ranobeId: string,
     @Param('domain') domain: string,
-    @Param('chapter') nomer: number,
+    @Param('chapter') nomer: number
   ): Promise<void> {
-    return this.chaptersService.remove(ranobeId, domain, nomer);
+    return this.chaptersService.remove(ranobeId, domain, nomer)
   }
 }

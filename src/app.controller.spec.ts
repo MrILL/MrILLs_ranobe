@@ -1,15 +1,15 @@
-import { ConfigModule } from '@nestjs/config';
-import { Test, TestingModule } from '@nestjs/testing';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { DbModule } from './db';
-import { ScraperModule } from './scraper';
-import { RanobesModule } from './ranobes';
-import { ChaptersModule } from './chapters';
-import { RanobeDomainsModule } from './ranobe-domains';
+import { ConfigModule } from '@nestjs/config'
+import { Test, TestingModule } from '@nestjs/testing'
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
+import { DbModule } from './db'
+import { ScraperModule } from './scraper'
+import { RanobesModule } from './ranobes'
+import { ChaptersModule } from './chapters'
+import { RanobeDomainsModule } from './ranobe-domains'
 
 describe('AppController', () => {
-  let appController: AppController;
+  let appController: AppController
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
@@ -25,14 +25,14 @@ describe('AppController', () => {
       ],
       controllers: [AppController],
       providers: [AppService],
-    }).compile();
+    }).compile()
 
-    appController = app.get<AppController>(AppController);
-  });
+    appController = app.get<AppController>(AppController)
+  })
 
   describe('root', () => {
     it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
-    });
-  });
-});
+      expect(appController.getHello()).toBe('Hello World!')
+    })
+  })
+})

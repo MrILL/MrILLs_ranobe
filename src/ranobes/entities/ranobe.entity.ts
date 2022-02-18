@@ -1,4 +1,4 @@
 export class Ranobe {
-  id: string;
-  title: string;
+  id: string
+  title: string
 }
