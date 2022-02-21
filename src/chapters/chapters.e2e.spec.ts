@@ -1,14 +1,14 @@
 import * as request from 'supertest'
 import { Test, TestingModule } from '@nestjs/testing'
 import { ConfigModule } from '@nestjs/config'
-import { DbModule } from 'src/db'
+import { DbModule } from 'db'
 import { INestApplication } from '@nestjs/common'
-import { Ranobe, RanobesModule } from 'src/ranobes'
-import { RanobeDomainsModule } from 'src/ranobe-domains'
-import { CreateRanobeDomainDto } from 'src/ranobe-domains/dto'
+import { Ranobe, RanobesModule } from 'ranobes'
+import { RanobeDomainsModule } from 'ranobe-domains'
+import { CreateRanobeDomainDto } from 'ranobe-domains/dto'
 import { ChaptersModule } from '.'
 import { CreateChapterDto } from './dto'
-import { ScraperModule } from 'src/scraper'
+import { ScraperModule } from 'scraper'
 
 const ranobeEntity: Partial<Ranobe> = {
   title: 'Chapters Test1',

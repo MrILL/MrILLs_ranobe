@@ -1,1 +1,1 @@
-export { ChaptersModule } from './chapters.module'
+export * from './chapters.module'

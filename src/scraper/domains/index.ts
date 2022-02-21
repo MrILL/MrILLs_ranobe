@@ -1,1 +1,1 @@
-export { RanobesScraper } from './ranobes.com'
+export * from './ranobes.com'

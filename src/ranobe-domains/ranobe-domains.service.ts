@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import { RanobeDomainsRepository } from './ranobe-domains.repository'
-import { RanobesService } from 'src/ranobes'
-import { genBase64UID } from 'src/utils'
+import { RanobesService } from 'ranobes'
+import { genBase64UID } from 'utils'
 import { RanobeDomainsHttpException } from './ranobe-domains.exceptions'
-import { RanobeDomain } from './entities'
+import { RanobeDomain } from './ranobe-domain.entity'
 import { CreateRanobeDomainDto, UpdateRanobeDomainDto } from './dto'
 
 @Injectable()

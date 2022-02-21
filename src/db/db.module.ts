@@ -25,16 +25,4 @@ export class DbModule {
       exports: [DbService],
     }
   }
-
-  static forRootAsync(options): DynamicModule {
-    return {
-      module: DbModule,
-      providers: [
-        {
-          provide: DB_CONFIG_OPTIONS,
-          useValue: options,
-        },
-      ],
-    }
-  }
 }

@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common'
-import { DbService } from 'src/db'
-import { Chapter } from './entities'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
+import { Chapter } from './chapter.entity'
 
 @Injectable()
 export class ChaptersRepository {
-  constructor(private readonly db: DbService) {}
+  constructor(
+    @InjectRepository(Chapter)
+    private readonly db: Repository<Chapter>
+  ) {}
 
   async create(
     id: string,

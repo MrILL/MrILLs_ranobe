@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common'
 import { RanobeDomainsService } from './ranobe-domains.service'
 import { CreateRanobeDomainDto, UpdateRanobeDomainDto } from './dto'
-import { RanobeDomain } from './entities'
+import { RanobeDomain } from './ranobe-domain.entity'
 
 @Controller('ranobes/:ranobe/domains')
 export class RanobeDomainsController {

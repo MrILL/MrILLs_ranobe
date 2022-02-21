@@ -1,1 +1,2 @@
-export { genBase64UID, isBase64UID } from './base64UID'
+export * from './base64UID'
+export * from './constants'

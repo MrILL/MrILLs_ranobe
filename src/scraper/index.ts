@@ -1,2 +1,2 @@
-export { ScraperModule } from './scraper.module'
-export { ScraperService } from './scraper.service'
+export * from './scraper.module'
+export * from './scraper.service'

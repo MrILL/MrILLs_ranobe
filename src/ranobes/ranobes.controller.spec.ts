@@ -3,7 +3,7 @@ import { RanobesController } from './ranobes.controller'
 import { RanobesRepository } from './ranobes.repository'
 import { RanobesService } from './ranobes.service'
 import { ConfigModule } from '@nestjs/config'
-import { DbModule } from 'src/db'
+import { DbModule } from 'db'
 
 describe('RanobesController', () => {
   let controller: RanobesController

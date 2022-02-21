@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common'
+import { TypeOrmModule } from '@nestjs/typeorm'
 import { RanobeDomainsController } from './ranobe-domains.controller'
 import { RanobeDomainsService } from './ranobe-domains.service'
 import { RanobeDomainsRepository } from './ranobe-domains.repository'
-import { DbModule } from 'src/db'
-import { RanobesModule } from 'src/ranobes'
+import { RanobesModule } from 'ranobes'
+import { RanobeDomain } from './ranobe-domain.entity'
 
 @Module({
-  imports: [DbModule, RanobesModule],
+  imports: [TypeOrmModule.forFeature([RanobeDomain]), RanobesModule],
   controllers: [RanobeDomainsController],
   providers: [RanobeDomainsService, RanobeDomainsRepository],
   exports: [RanobeDomainsService],

@@ -1,2 +1,2 @@
-export { CreateChapterDto } from './create-chapter.dto'
-export { UpdateChapterDto } from './update-chapter.dto'
+export * from './create-chapter.dto'
+export * from './update-chapter.dto'

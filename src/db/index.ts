@@ -1,2 +1,2 @@
-export { DbModule } from './db.module'
-export { DbService } from './db.service'
+export * from './db.module'
+export * from './db.service'

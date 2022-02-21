@@ -1,23 +1,28 @@
-import { Pool } from 'pg';
-import { readFile } from 'fs/promises';
-import { Inject, Injectable } from '@nestjs/common';
-import { DbConfigOptions } from './interfaces/db-config-options.interface';
+import { Pool, QueryConfig, QueryResult, QueryResultRow } from 'pg'
+import { readFile } from 'fs/promises'
+import { Inject, Injectable } from '@nestjs/common'
+import { DbConfigOptions } from './interfaces/db-config-options.interface'
 
 @Injectable()
 export class DbService {
-  private readonly db;
+  private readonly db: Pool
 
   constructor(@Inject('DB_CONFIG_OPTIONS') options: DbConfigOptions) {
-    this.db = new Pool(options);
-    this.runScript(options.initScriptPath);
+    this.db = new Pool()
+
+    this.runScript(options.initScriptPath)
   }
 
-  query(...args: any) {
-    return this.db.query(...args);
+  query<R extends QueryResultRow = any, I extends any[] = any[]>(
+    queryTextOrConfig: string | QueryConfig<I>,
+    values?: I
+  ): Promise<QueryResult<R>> {
+    return this.db.query(queryTextOrConfig, values)
   }
 
-  async runScript(fileUrl: string) {
-    const script = (await readFile(fileUrl)).toString();
-    return this.query(script);
+  private async runScript(fileUrl: string) {
+    const script = (await readFile(fileUrl)).toString()
+
+    return this.db.query(script)
   }
 }

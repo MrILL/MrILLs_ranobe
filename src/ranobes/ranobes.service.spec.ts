@@ -1,6 +1,6 @@
 import { ConfigModule } from '@nestjs/config'
 import { Test, TestingModule } from '@nestjs/testing'
-import { DbModule } from 'src/db'
+import { DbModule } from 'db'
 import { RanobesRepository } from './ranobes.repository'
 import { RanobesService } from './ranobes.service'
 

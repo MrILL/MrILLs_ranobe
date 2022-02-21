@@ -1,12 +1,12 @@
 import * as request from 'supertest'
 import { Test, TestingModule } from '@nestjs/testing'
 import { ConfigModule } from '@nestjs/config'
-import { DbModule } from 'src/db'
+import { DbModule } from 'db'
 import { INestApplication } from '@nestjs/common'
 import { RanobeDomainsModule } from './ranobe-domains.module'
-import { Ranobe, RanobesModule } from 'src/ranobes'
+import { Ranobe, RanobesModule } from 'ranobes'
 import { CreateRanobeDomainDto, UpdateRanobeDomainDto } from './dto'
-import { CreateRanobeDto } from 'src/ranobes/dto'
+import { CreateRanobeDto } from 'ranobes/dto'
 
 const createRanobeDto: CreateRanobeDto = {
   title: 'Ranobe Test1',

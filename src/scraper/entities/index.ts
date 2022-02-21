@@ -1,3 +1,3 @@
-export { Scraper } from '../interfaces/scraper'
-export { RanobeDomainData } from './ranobe-domain-data'
-export { Chapter } from './chapter'
+export * from '../interfaces/scraper'
+export * from './ranobe-domain-data'
+export * from './chapter'

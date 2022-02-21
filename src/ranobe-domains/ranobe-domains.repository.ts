@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common'
-import { DbService } from 'src/db'
-import { RanobeDomain } from './entities'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
+import { RanobeDomain } from './ranobe-domain.entity'
 import { CreateRanobeDomainDto, UpdateRanobeDomainDto } from './dto'
 
 @Injectable()
 export class RanobeDomainsRepository {
-  constructor(private readonly db: DbService) {}
+  constructor(
+    @InjectRepository(RanobeDomain)
+    private readonly db: Repository<RanobeDomain>
+  ) {}
 
   async create(
     id: string,

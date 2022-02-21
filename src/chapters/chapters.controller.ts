@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common'
 import { ChaptersService } from './chapters.service'
 import { CreateChapterDto, UpdateChapterDto } from './dto'
-import { Chapter } from './entities'
+import { Chapter } from './chapter.entity'
 
 @Controller('ranobes/:ranobe')
 export class ChaptersController {

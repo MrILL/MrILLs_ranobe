@@ -1,8 +1,8 @@
 import { ConfigModule } from '@nestjs/config'
 import { Test, TestingModule } from '@nestjs/testing'
-import { DbModule } from 'src/db'
-import { RanobeDomainsModule } from 'src/ranobe-domains'
-import { ScraperModule } from 'src/scraper'
+import { DbModule } from 'db'
+import { RanobeDomainsModule } from 'ranobe-domains'
+import { ScraperModule } from 'scraper'
 import { ChaptersRepository } from './chapters.repository'
 import { ChaptersService } from './chapters.service'
 

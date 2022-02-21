@@ -14,9 +14,9 @@ CREATE TABLE IF NOT EXISTS ranobes (
 --   //date of last update?
 CREATE TABLE IF NOT EXISTS ranobe_domains (
     id VARCHAR(7) PRIMARY KEY,
-    ranobe_id VARCHAR(7) NOT NULL,
     domain VARCHAR(255) NOT NULL,
     source VARCHAR(2048) NOT NULL,
+    ranobe_id VARCHAR(7) NOT NULL,
     total_chapters INTEGER DEFAULT 0,
     authors_name VARCHAR(100) NULL,
     country VARCHAR(100) NULL,

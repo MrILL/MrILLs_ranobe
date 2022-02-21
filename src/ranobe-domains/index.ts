@@ -1,3 +1,3 @@
-export { RanobeDomainsModule } from './ranobe-domains.module'
-export { RanobeDomainsService } from './ranobe-domains.service'
-export { RanobeDomain } from './entities'
+export * from './ranobe-domains.module'
+export * from './ranobe-domains.service'
+export * from './ranobe-domain.entity'

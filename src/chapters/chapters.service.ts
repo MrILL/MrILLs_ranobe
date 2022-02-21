@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common'
-import { RanobeDomainsService } from 'src/ranobe-domains/ranobe-domains.service'
-import { ScraperService } from 'src/scraper'
-import { genBase64UID } from 'src/utils'
+import { RanobeDomainsService } from 'ranobe-domains/ranobe-domains.service'
+import { ScraperService } from 'scraper'
+import { genBase64UID } from 'utils'
 import { ChaptersHttpException } from './chapters.exceptions'
 import { ChaptersRepository } from './chapters.repository'
 import { CreateChapterDto, UpdateChapterDto } from './dto'
-import { Chapter } from './entities'
+import { Chapter } from './chapter.entity'
 
 @Injectable()
 export class ChaptersService {
