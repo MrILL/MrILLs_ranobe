@@ -1,1 +1,1 @@
-export { genBase64UID } from './genBase64UID';
+export * from './base64UID'

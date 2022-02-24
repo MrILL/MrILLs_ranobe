@@ -1,1 +1,0 @@
-export const DB_CONFIG_OPTIONS = 'DB_CONFIG_OPTIONS';
