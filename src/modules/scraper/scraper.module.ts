@@ -1,4 +1,8 @@
 import { Module, DynamicModule, Global } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
+
+import { ScraperControllerV2 } from './scraper-v2.controller'
+import { ScraperServiceV2 } from './scraper-v2.service'
 import { ScraperService } from './scraper.service'
 import { RanobesScraper } from './domains'
 import { SCRAPER_DOMAINS_OPTION, SCRAPERS_OPTIONS } from './constants'
@@ -17,6 +21,7 @@ export class ScraperModule {
 
     return {
       module: ScraperModule,
+      imports: [ConfigModule],
       providers: [
         {
           provide: SCRAPER_DOMAINS_OPTION,
@@ -27,7 +32,9 @@ export class ScraperModule {
           useValue: options,
         },
         ScraperService,
+        ScraperServiceV2,
       ],
+      controllers: [ScraperControllerV2],
       exports: [ScraperService],
     }
   }

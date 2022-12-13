@@ -15,9 +15,6 @@ export class Chapter {
   @PrimaryColumn({ length: CHAPTER_ID_LENGTH })
   id: string
 
-  @ManyToOne(() => RanobeDomain)
-  ranobeDomain: RanobeDomain
-
   @Column({ length: CHAPTER_NOMER_LENGTH, nullable: true })
   nomer: string
 
@@ -29,6 +26,9 @@ export class Chapter {
 
   @Column()
   body: string
+
+  @ManyToOne(() => RanobeDomain)
+  ranobeDomain: RanobeDomain
 
   @BeforeInsert()
   onInsert() {

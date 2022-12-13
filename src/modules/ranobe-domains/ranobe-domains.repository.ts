@@ -68,9 +68,9 @@ export class RanobeDomainsRepository {
   }
 
   async remove(ranobeDomainId: string): Promise<void> {
-    const ranobeDomain = await this.ranobeDomainRepository.findOne(
-      ranobeDomainId
-    )
+    const ranobeDomain = await this.ranobeDomainRepository.findOneBy({
+      id: ranobeDomainId,
+    })
 
     await this.ranobeDomainRepository.remove(ranobeDomain)
   }

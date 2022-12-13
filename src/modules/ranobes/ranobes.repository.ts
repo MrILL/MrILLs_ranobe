@@ -22,7 +22,7 @@ export class RanobesRepository {
   }
 
   async findOne(ranobeId: string): Promise<Ranobe> {
-    return this.ranobeRepository.findOne(ranobeId)
+    return this.ranobeRepository.findOneBy({ id: ranobeId })
   }
 
   async update(
@@ -39,7 +39,7 @@ export class RanobesRepository {
   }
 
   async remove(ranobeId: string): Promise<void> {
-    const ranobe = await this.ranobeRepository.findOne(ranobeId)
+    const ranobe = await this.ranobeRepository.findOneBy({ id: ranobeId })
 
     await this.ranobeRepository.remove(ranobe)
   }

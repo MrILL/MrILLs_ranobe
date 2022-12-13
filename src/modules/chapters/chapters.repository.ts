@@ -62,7 +62,7 @@ export class ChaptersRepository {
   }
 
   async remove(chapterId: string): Promise<void> {
-    const chapter = await this.chapterRepository.findOne(chapterId)
+    const chapter = await this.chapterRepository.findOneBy({ id: chapterId })
 
     await this.chapterRepository.remove(chapter)
   }
