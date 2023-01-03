@@ -3,17 +3,18 @@ import {
   Get,
   Post,
   Body,
-  Put,
   Param,
   Delete,
   HttpCode,
   HttpStatus,
 } from '@nestjs/common'
-import { ChaptersService } from './chapters.service'
+
+import { ChaptersService, ChaptersServiceV2 } from './chapters.service'
 import { CreateChapterRequestDto, UpdateChapterRequestDto } from './dto'
 import { Chapter } from './chapter.entity'
+import { CreateChapterDto } from './dto/create-chapter.dto'
 
-@Controller('ranobes/:ranobe')
+@Controller('ranobes/:ranobe/')
 export class ChaptersController {
   constructor(private readonly chaptersService: ChaptersService) {}
 
@@ -40,7 +41,7 @@ export class ChaptersController {
   findOne(
     @Param('ranobe') ranobeId: string,
     @Param('domain') domain: string,
-    @Param('chapter') nomer: string
+    @Param('chapter') nomer: number
   ): Promise<Chapter> {
     return this.chaptersService.findOne(ranobeId, domain, nomer)
   }
@@ -56,13 +57,34 @@ export class ChaptersController {
   //   return this.chaptersService.update(ranobeId, chapterId, updateChapterDto);
   // }
 
-  @Delete('domains/:domain/chapters/:chapter')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  remove(
-    @Param('ranobe') ranobeId: string,
-    @Param('domain') domain: string,
-    @Param('chapter') nomer: string
-  ): Promise<void> {
-    return this.chaptersService.remove(ranobeId, domain, nomer)
+  // @Delete('domains/:domain/chapters/:chapter')
+  // @HttpCode(HttpStatus.NO_CONTENT)
+  // remove(
+  //   @Param('ranobe') ranobeId: string,
+  //   @Param('domain') domain: string,
+  //   @Param('chapter') nomer: number
+  // ): Promise<void> {
+  //   return this.chaptersService.remove(ranobeId, domain, nomer)
+  // }
+}
+
+// TODO add admin guard
+@Controller({
+  path: 'chapters',
+  version: '2',
+})
+export class ChaptersControllerV2 {
+  constructor(private readonly chaptersService: ChaptersServiceV2) {}
+
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  create(@Body() createChapterDto: CreateChapterDto): Promise<Chapter> {
+    return this.chaptersService.create(createChapterDto)
+  }
+
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  findAll(): Promise<Chapter[]> {
+    return this.chaptersService.findAll()
   }
 }

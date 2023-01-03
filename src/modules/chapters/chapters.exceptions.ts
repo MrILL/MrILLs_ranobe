@@ -20,7 +20,11 @@ export class ChaptersHttpException extends HttpException {
   }
 
   static Conflict() {
-    return new ConflictException('Chapter In This Domain Already Exists')
+    return new ConflictException('Chapter In This Ranobe Already Exists')
+  }
+
+  static ConflictAlreadyExists(url: string) {
+    return new ConflictException(`Chapter with url:${url} already exists`)
   }
 
   static InternalServerError(message: string) {

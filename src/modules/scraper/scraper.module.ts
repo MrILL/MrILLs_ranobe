@@ -32,9 +32,9 @@ export class ScraperModule {
           useValue: options,
         },
         ScraperService,
-        ScraperServiceV2,
+        // ScraperServiceV2,
       ],
-      controllers: [ScraperControllerV2],
+      // controllers: [ScraperControllerV2],
       exports: [ScraperService],
     }
   }

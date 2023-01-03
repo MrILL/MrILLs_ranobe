@@ -1,19 +1,23 @@
 import { Module } from '@nestjs/common'
-import { ChaptersService } from './chapters.service'
-import { ChaptersController } from './chapters.controller'
-import { RanobeDomainsModule } from 'modules/ranobe-domains'
-import { ChaptersRepository } from './chapters.repository'
+import { ChaptersService, ChaptersServiceV2 } from './chapters.service'
+import { ChaptersController, ChaptersControllerV2 } from './chapters.controller'
+import { ChaptersRepository, ChaptersRepositoryV2 } from './chapters.repository'
 import { ScraperModule } from 'modules/scraper'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Chapter } from './chapter.entity'
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Chapter]),
-    RanobeDomainsModule,
-    ScraperModule,
+  imports: [TypeOrmModule.forFeature([Chapter]), ScraperModule],
+  controllers: [
+    // ChaptersController,
+    ChaptersControllerV2,
   ],
-  controllers: [ChaptersController],
-  providers: [ChaptersService, ChaptersRepository],
+  providers: [
+    ChaptersService,
+    ChaptersRepository,
+    ChaptersServiceV2,
+    ChaptersRepositoryV2,
+  ],
+  exports: [ChaptersService, ChaptersServiceV2],
 })
 export class ChaptersModule {}

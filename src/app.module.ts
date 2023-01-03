@@ -1,11 +1,13 @@
+import path = require('path')
+
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm'
+
 import { ScraperModule } from 'modules/scraper'
 import { RanobesModule } from 'modules/ranobes'
-import { RanobeDomainsModule } from 'modules/ranobe-domains'
 import { ChaptersModule } from 'modules/chapters'
-import path = require('path')
+import { RanobeChaptersModule } from 'modules/ranobe-chapters'
 
 @Module({
   imports: [
@@ -28,8 +30,8 @@ import path = require('path')
     }),
     ScraperModule.forRoot(),
     RanobesModule,
-    RanobeDomainsModule,
     ChaptersModule,
+    RanobeChaptersModule,
   ],
 })
 export class AppModule {}

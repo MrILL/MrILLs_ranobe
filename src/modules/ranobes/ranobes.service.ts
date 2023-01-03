@@ -1,19 +1,28 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, Logger } from '@nestjs/common'
 import { RanobesHttpException } from './ranobes.exceptions'
-import { CreateRanobeDto, UpdateRanobeDto } from './dto'
+import { CreateRanobeDto, GetRanobesQuery, UpdateRanobeDto } from './dto'
 import { RanobesRepository } from './ranobes.repository'
 import { Ranobe } from './ranobe.entity'
 
 @Injectable()
 export class RanobesService {
+  private readonly logger = new Logger(RanobesService.name)
+
   constructor(private readonly ranobesRepository: RanobesRepository) {}
 
   async create(createRanobeDto: CreateRanobeDto): Promise<Ranobe> {
+    const checkByUrl = await this.ranobesRepository.findOneByUrl(
+      createRanobeDto.url
+    )
+    if (checkByUrl) {
+      throw RanobesHttpException.ConflictAlreadyExists(createRanobeDto.url)
+    }
+
     return this.ranobesRepository.create(createRanobeDto)
   }
 
-  async findAll(): Promise<Ranobe[]> {
-    const res = await this.ranobesRepository.findAll()
+  async findAll(query: GetRanobesQuery = {}): Promise<Ranobe[]> {
+    const res = await this.ranobesRepository.findAll(query)
     if (!res || res.length === 0) {
       throw RanobesHttpException.NotFound()
     }
@@ -30,21 +39,21 @@ export class RanobesService {
     return res
   }
 
-  async update(id: string, updateRanobeDto: UpdateRanobeDto): Promise<void> {
-    const checkRanobe = await this.ranobesRepository.findOne(id)
-    if (!checkRanobe) {
-      throw RanobesHttpException.NotFound()
-    }
+  // async update(id: string, updateRanobeDto: UpdateRanobeDto): Promise<void> {
+  //   const checkRanobe = await this.ranobesRepository.findOne(id)
+  //   if (!checkRanobe) {
+  //     throw RanobesHttpException.NotFound()
+  //   }
 
-    await this.ranobesRepository.update(id, updateRanobeDto)
-  }
+  //   await this.ranobesRepository.update(id, updateRanobeDto)
+  // }
 
-  async remove(id: string): Promise<void> {
-    const checkRanobe = await this.ranobesRepository.findOne(id)
-    if (!checkRanobe) {
-      throw RanobesHttpException.NotFound()
-    }
+  // async remove(id: string): Promise<void> {
+  //   const checkRanobe = await this.ranobesRepository.findOne(id)
+  //   if (!checkRanobe) {
+  //     throw RanobesHttpException.NotFound()
+  //   }
 
-    await this.ranobesRepository.remove(id)
-  }
+  //   await this.ranobesRepository.remove(id)
+  // }
 }

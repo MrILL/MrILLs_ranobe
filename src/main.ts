@@ -1,4 +1,4 @@
-import { VersioningType } from '@nestjs/common'
+import { Logger, VersioningType } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 
 import { AppModule } from './app.module'
@@ -12,6 +12,10 @@ async function bootstrap() {
     type: VersioningType.URI,
   })
 
-  await app.listen(3000)
+  // TODO move to env
+  const port = 3000
+  await app.listen(port)
+  const logger = new Logger('Root')
+  logger.log(`Listening on port ${port}`)
 }
 bootstrap()
