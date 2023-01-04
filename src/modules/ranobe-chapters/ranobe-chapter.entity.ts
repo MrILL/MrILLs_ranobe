@@ -7,8 +7,8 @@ import {
   PrimaryColumn,
 } from 'typeorm'
 
-import { Ranobe } from 'modules/ranobes/ranobe.entity'
-import { Chapter } from 'modules/chapters/chapter.entity'
+import { Ranobe } from 'modules/ranobes'
+import { Chapter } from 'modules/chapters'
 import { genBase64UID } from 'utils'
 import { CHAPTER_ID_LENGTH } from 'utils/constants'
 
@@ -19,8 +19,6 @@ export class RanobeChapters {
   @PrimaryColumn({ length: CHAPTER_ID_LENGTH })
   id: string
 
-  // Many to one to ranobe
-  // One to one to chapter
   @ManyToOne(() => Ranobe)
   ranobe: Ranobe
 

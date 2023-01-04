@@ -1,8 +1,7 @@
 import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common'
 
 import { ScraperServiceV2 } from './scraper-v2.service'
-import { ScraperRequestDto } from './dto/scraper-request.dto'
-// import { Ranobe } from './scraper.entity'
+import { ScraperRequestDto } from './dto'
 
 @Controller({
   path: 'scraper',
@@ -11,9 +10,11 @@ import { ScraperRequestDto } from './dto/scraper-request.dto'
 export class ScraperControllerV2 {
   constructor(private readonly scraperServiceV2: ScraperServiceV2) {}
 
-  @Post()
-  @HttpCode(HttpStatus.CREATED)
-  async scrape(@Body() scraperRequestDto: ScraperRequestDto): Promise<any> {
-    return this.scraperServiceV2.scrape(scraperRequestDto)
-  }
+  // @Post()
+  // @HttpCode(HttpStatus.CREATED)
+  // async scrape(@Body() scraperRequestDto: ScraperRequestDto): Promise<any> {
+  //   return this.scraperServiceV2.scrape(scraperRequestDto)
+  // }
+
+  // TODO routes for scraping ranobe info, full ranobe & chapter
 }

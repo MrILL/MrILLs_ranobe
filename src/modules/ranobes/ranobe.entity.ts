@@ -15,7 +15,7 @@ export class Ranobe {
   id: string
 
   // TODO enum
-  @Column({ type: 'enum', enum: SupportedDomains })
+  @Column({ type: 'char', length: RANOBE_TITLE_LENGTH })
   domain: SupportedDomains
 
   @Column({ length: URL_LENGTH, unique: true })

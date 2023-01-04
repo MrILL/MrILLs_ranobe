@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm'
+import { BeforeInsert, Column, Entity, PrimaryColumn } from 'typeorm'
 import { genBase64UID } from 'utils'
 import {
   CHAPTER_ID_LENGTH,
@@ -33,10 +33,6 @@ export class Chapter {
 
   @Column({ length: CHAPTER_ID_LENGTH, nullable: true })
   nextChapterId?: string
-
-  //TODO remove
-  // @ManyToOne(() => RanobeDomain)
-  // ranobeDomain: RanobeDomain
 
   @BeforeInsert()
   onInsert() {

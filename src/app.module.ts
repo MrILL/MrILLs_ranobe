@@ -1,6 +1,6 @@
 import path = require('path')
 
-import { Module } from '@nestjs/common'
+import { Logger, Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm'
 
@@ -28,10 +28,11 @@ import { RanobeChaptersModule } from 'modules/ranobe-chapters'
         } as TypeOrmModuleOptions
       },
     }),
-    ScraperModule.forRoot(),
     RanobesModule,
     ChaptersModule,
     RanobeChaptersModule,
+    ScraperModule,
   ],
+  providers: [Logger],
 })
 export class AppModule {}

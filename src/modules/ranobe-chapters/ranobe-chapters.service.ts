@@ -7,9 +7,8 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
 import { RanobesService } from 'modules/ranobes'
-import { ChaptersServiceV2 } from 'modules/chapters/chapters.service'
+import { Chapter, ChaptersServiceV2 } from 'modules/chapters'
 import { CreateChapterDto } from 'modules/chapters/dto'
-import { Chapter } from 'modules/chapters/chapter.entity'
 
 import { RanobeChapters } from './ranobe-chapter.entity'
 
@@ -84,7 +83,9 @@ export class RanobeChaptersService {
     return chapter
   }
 
-  async getAllChapters(ranobeId: string): Promise<Chapter[]> {
+  async findAllChapters(ranobeId: string): Promise<Chapter[]> {
+    const ranobe = await this.ranobesService.findOne(ranobeId)
+
     const ranobeChapters = await this.ranobeChaptersRepository.find({
       relations: {
         ranobe: true,
@@ -92,16 +93,47 @@ export class RanobeChaptersService {
       },
       where: {
         ranobe: {
-          id: ranobeId,
+          id: ranobe.id,
         },
       },
     })
 
     const chapters = ranobeChapters.map(({ chapter }) => chapter)
     if (chapters.length === 0) {
-      throw new NotFoundException(`Ranobe with id:${ranobeId} have no chapters`)
+      throw new NotFoundException(
+        `Ranobe with id:${ranobe.id} have no chapters`
+      )
     }
 
     return chapters
+  }
+
+  async findOneChapter(ranobeId, volume, nomer): Promise<Chapter> {
+    const ranobe = await this.ranobesService.findOne(ranobeId)
+
+    const ranobeChapter = await this.ranobeChaptersRepository.findOne({
+      relations: {
+        ranobe: true,
+        chapter: true,
+      },
+      where: {
+        ranobe: {
+          id: ranobe.id,
+        },
+        chapter: {
+          volume,
+          nomer,
+        },
+      },
+    })
+    if (!ranobeChapter) {
+      throw new NotFoundException(
+        `Not found chapter of ranobe:${ranobe.id} with v:${volume} n:${nomer}`
+      )
+    }
+
+    const chapter = ranobeChapter.chapter
+
+    return chapter
   }
 }
