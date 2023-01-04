@@ -8,10 +8,12 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  Query,
 } from '@nestjs/common'
 import { RanobesService } from './ranobes.service'
 import { CreateRanobeDto, UpdateRanobeDto } from './dto'
 import { Ranobe } from './ranobe.entity'
+import { GetRanobesQuery } from './dto/get-ranobes-query.dto'
 
 @Controller('ranobes')
 export class RanobesController {
@@ -27,8 +29,8 @@ export class RanobesController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(): Promise<Ranobe[]> {
-    return this.ranobesService.findAll()
+  async findAll(@Query() query: GetRanobesQuery): Promise<Ranobe[]> {
+    return this.ranobesService.findAll(query)
   }
 
   @Get(':ranobe')
@@ -37,18 +39,18 @@ export class RanobesController {
     return this.ranobesService.findOne(id)
   }
 
-  @Put(':ranobe')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async update(
-    @Param('ranobe') id: string,
-    @Body() updateRanobeDto: UpdateRanobeDto
-  ): Promise<void> {
-    return this.ranobesService.update(id, updateRanobeDto)
-  }
+  // @Put(':ranobe')
+  // @HttpCode(HttpStatus.NO_CONTENT)
+  // async update(
+  //   @Param('ranobe') id: string,
+  //   @Body() updateRanobeDto: UpdateRanobeDto
+  // ): Promise<void> {
+  //   return this.ranobesService.update(id, updateRanobeDto)
+  // }
 
-  @Delete(':ranobe')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param('ranobe') id: string): Promise<void> {
-    return this.ranobesService.remove(id)
-  }
+  // @Delete(':ranobe')
+  // @HttpCode(HttpStatus.NO_CONTENT)
+  // async remove(@Param('ranobe') id: string): Promise<void> {
+  //   return this.ranobesService.remove(id)
+  // }
 }

@@ -3,66 +3,45 @@ import {
   Get,
   Post,
   Body,
-  Put,
-  Param,
-  Delete,
   HttpCode,
   HttpStatus,
+  Param,
+  Delete,
 } from '@nestjs/common'
-import { ChaptersService } from './chapters.service'
-import { CreateChapterRequestDto, UpdateChapterRequestDto } from './dto'
+
+import { ChaptersServiceV2 } from './chapters.service'
 import { Chapter } from './chapter.entity'
+import { CreateChapterDto } from './dto/create-chapter.dto'
 
-@Controller('ranobes/:ranobe')
-export class ChaptersController {
-  constructor(private readonly chaptersService: ChaptersService) {}
+// TODO add in dev guard
+@Controller({
+  path: 'chapters',
+  version: '2',
+})
+export class ChaptersControllerV2 {
+  constructor(private readonly chaptersService: ChaptersServiceV2) {}
 
-  @Post('chapters')
+  @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(
-    @Param('ranobe') ranobeId: string,
-    @Body() createChapterDto: CreateChapterRequestDto
-  ): Promise<Chapter> {
-    return this.chaptersService.create(ranobeId, createChapterDto)
+  async create(@Body() createChapterDto: CreateChapterDto): Promise<Chapter> {
+    return this.chaptersService.create(createChapterDto)
   }
 
-  @Get('domains/:domain/chapters')
+  @Get()
   @HttpCode(HttpStatus.OK)
-  findAll(
-    @Param('ranobe') ranobeId: string,
-    @Param('domain') domain: string
-  ): Promise<Chapter[]> {
-    return this.chaptersService.findAll(ranobeId, domain)
+  async findAll(): Promise<Chapter[]> {
+    return this.chaptersService.findAll()
   }
 
-  @Get('domains/:domain/chapters/:chapter')
+  @Get(':chapter')
   @HttpCode(HttpStatus.OK)
-  findOne(
-    @Param('ranobe') ranobeId: string,
-    @Param('domain') domain: string,
-    @Param('chapter') nomer: string
-  ): Promise<Chapter> {
-    return this.chaptersService.findOne(ranobeId, domain, nomer)
+  async findOne(@Param('chapter') chapterId: string): Promise<Chapter> {
+    return this.chaptersService.findOne(chapterId)
   }
 
-  // @Put('domains/:domain/chapters/:chapter')
-  // @HttpCode(HttpStatus.NO_CONTENT)
-  // update(
-  //   @Param('ranobe') ranobeId: string,
-  //   @Param('domain') domain: string,
-  //   @Param('chapter') chapterId: string,
-  //   @Body() updateChapterDto: UpdateChapterDto,
-  // ): Promise<Chapter> {
-  //   return this.chaptersService.update(ranobeId, chapterId, updateChapterDto);
-  // }
-
-  @Delete('domains/:domain/chapters/:chapter')
+  @Delete(':chapter')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(
-    @Param('ranobe') ranobeId: string,
-    @Param('domain') domain: string,
-    @Param('chapter') nomer: string
-  ): Promise<void> {
-    return this.chaptersService.remove(ranobeId, domain, nomer)
+  async removeOne(@Param('chapter') chapterId: string): Promise<void> {
+    return this.chaptersService.removeOne(chapterId)
   }
 }
